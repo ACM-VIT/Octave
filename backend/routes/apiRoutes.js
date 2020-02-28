@@ -31,7 +31,7 @@ google.seed();
 const router = express.Router();
 
 // define a middleware to check authentication
-/*
+// /*
 router.use((req, res, next) => {
   //   logger.info('Middleware working');
 
@@ -69,7 +69,8 @@ router.use((req, res, next) => {
   //   logger.info('Middleware Test Success');
   next();
 });
-*/
+// */
+
 // route to /api. shows welcome message, and (maybe) other stuff too
 router.get('/', (req, res) => {
   res.json({
@@ -330,11 +331,12 @@ router.get('/leaderBoard', (req, res) => {
       if (err) {
         logger.error(`Fetching leaderboard ${err.message}`);
         res.json({
-          error: 1,
+          error: true,
           message: err,
         });
         // process successful response
       } else {
+        data = spotify.filterSongsToShowLeaderboard(data, req.profile.payload.id);
         res.json({ data });
       }
     });

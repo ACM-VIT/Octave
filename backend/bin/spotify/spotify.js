@@ -196,4 +196,31 @@ Spotify.prototype.filterSongsToShowLiveStatus = (data) => {
   return processedData;
 };
 
+// function to filter what data to send to leaderboard
+Spotify.prototype.filterSongsToShowLeaderboard = (data, uniqueUserId) => {
+  const returnData = [];
+  let media;
+  data.forEach((x) => {
+    // only show side dimension and urls
+    media = [];
+    x.media.forEach((y) => {
+      media.push({
+        sideDimension: y.height,
+        url: y.url,
+      });
+    });
+
+    returnData.push({
+      id: x.id,
+      title: x.title,
+      upvotes: x.upvotes,
+      upvoted: x.upvoters.includes(uniqueUserId) > -1,
+      artist: x.artists,
+      media,
+    });
+  });
+
+  return returnData;
+};
+
 module.exports = new Spotify();
