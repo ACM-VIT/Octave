@@ -128,7 +128,6 @@ router.post('/upvote', (req, res) => {
       message: 'No Id to identify track',
     });
   }
-
   //   get id from request
   const { id } = req.body;
 
@@ -312,11 +311,76 @@ router.post('/request', (req, res) => {
       });
       //   if data of particular id already in database, show error
     } else {
+      // upvote it bitch ! should have moved to client side :(
       logger.warn(`Re-Insert Request for id : ${id}`);
-      res.json({
-        error: 1,
-        message: 'Track already in leaderboard. Upvote request expected',
-      });
+      // user already in upvoters list, so time to take the upvote back
+      if (data.upvoters.includes(req.profile.payload.id)) {
+        Track.updateOne(
+          { id },
+          {
+            $inc: { upvotes: -1 },
+            $pull: { upvoters: req.profile.payload.id },
+          },
+          { multi: false },
+          (err, resp) => {
+            //   if any error updating data
+            if (err) {
+              //   log error to console
+              logger.error(err);
+              res.json({
+                error: 1,
+                message: 'Error processing upvote',
+              });
+            } else {
+              logger.info(`Removing upvoter ${req.profile.payload.id} from ${id}`);
+              // send what happened, newVote, or removeVote
+              res.json({
+                error: 0,
+                upvoteStatus: 'voteRemoved',
+                math: -1,
+              });
+            }
+          },
+        );
+        // if upvote requried
+      } else {
+        Track.updateOne(
+          { id },
+          {
+            $inc: { upvotes: 1 },
+            $push: { upvoters: req.profile.payload.id },
+          },
+          (err, resp) => {
+            // check if any error in updating
+            if (err) {
+              //   log out the error
+              logger.error(err);
+
+              // show error to user
+              res.json({
+                error: 1,
+                message: 'Error updating track upvotes',
+              });
+              // if upvoter success
+            } else {
+              //   logggggin
+              logger.info(`Adding upvoter ${req.profile.payload.id} to ${id}`);
+
+              // send what happened, newVote, or removeVote
+              res.json({
+                error: 0,
+                upvoteStatus: 'voteCounted',
+                math: 1,
+              });
+            }
+          },
+        );
+      }
+      //
+      //   res.json({
+      //     error: 1,
+      //     message: 'Track already in leaderboard. Upvote request expected',
+      //   });
     }
   });
   //   track finding ends here
