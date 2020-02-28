@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import auth from '../../auth';
-
 const UserDropdown = props => {
   const { isOpen, history, avatar } = props;
   return (
     <>
       {isOpen ? (
-        <div className="text-white bg-faded absolute right-0 mr-32 flex flex-col shadow-lg">
+        <div className="text-white bg-faded absolute right-0 mr-32 flex flex-col shadow-lg z-10">
           <div className="px-10 lg:px-12 py-4">
             <img
               src={avatar}
@@ -20,9 +18,7 @@ const UserDropdown = props => {
             className="bg-contrast text-lg lg:text-xl font-bold text-center w-full uppercase py-2 cursor-pointer hover:bg-green-700"
             type="button"
             onClick={() => {
-              auth.logout(() => {
-                history.push('/');
-              });
+              history.push('/');
             }}
           >
             Log Out

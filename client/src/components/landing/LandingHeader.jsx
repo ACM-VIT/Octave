@@ -11,7 +11,7 @@ class LandingHeader extends React.Component {
     const { windowWidth } = this.props;
 
     return (
-      <header className="flex col flex-col items-center justify-center w-screen">
+      <header className="flex col flex-col items-center justify-center w-screen ">
         <C2CLogo
           height={(() => {
             if (windowWidth > 1600) return '113';

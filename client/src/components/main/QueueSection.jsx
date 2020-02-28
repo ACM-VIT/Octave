@@ -35,7 +35,7 @@ class QueueSection extends React.Component {
 
   render() {
     let { queue } = this.props;
-    const { user, songSearch } = this.props;
+    const { songSearch } = this.props;
     const { isOpen } = this.state;
 
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
@@ -73,7 +73,6 @@ class QueueSection extends React.Component {
                 this.upOrDown.bind(this)(songInfo.id);
               }}
               key={songInfo.id}
-              user={user}
             />
           ))}
         </div>
@@ -86,12 +85,10 @@ export default QueueSection;
 
 QueueSection.propTypes = {
   queue: PropTypes.arrayOf(PropTypes.any),
-  user: PropTypes.objectOf(PropTypes.any),
   songSearch: PropTypes.arrayOf(PropTypes.any)
 };
 
 QueueSection.defaultProps = {
   queue: [],
-  user: {},
   songSearch: []
 };

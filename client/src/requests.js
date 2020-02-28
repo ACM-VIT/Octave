@@ -39,6 +39,13 @@ const getUser = () => {
 
 const getNowPlaying = () => {
   return new Promise(resolve => {
+    // axios({
+    //   method: 'GET',
+    //   url: `${baseURL}/api/live`,
+    //   headers: {
+    //     Authorization: `Bearer  ${localStorage.getItem('token')}`
+    //   }
+    // }).then(res => console.log(res));
     resolve(nowPlaying);
   });
 };

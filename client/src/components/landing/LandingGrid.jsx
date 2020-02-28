@@ -82,9 +82,13 @@ class LandingGrid extends React.Component {
         />
         <div className="sm:w-1/2 flex flex-col my-2 justify-center items-start px-32">
           <div className="text-white text-sm md:text-xl text-center w-48 md:w-64">
-            To Continue
+            Continue as internal
           </div>
-          <GoogleButton history={history} />
+          <GoogleButton history={history} type="internal" />
+          <div className="text-white text-sm md:text-xl text-center w-48 md:w-64">
+            Continue as external
+          </div>
+          <GoogleButton history={history} type="external" />
         </div>
       </div>
     );
