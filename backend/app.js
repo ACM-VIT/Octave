@@ -9,6 +9,8 @@ const bodyparser = require('body-parser');
 // load request module
 const request = require('request');
 
+const cors = require('cors');
+
 // load logger for easy debug
 const logger = require('./bin/logger/logger');
 
@@ -39,7 +41,7 @@ app.use(
     extended: true,
   }),
 );
-
+app.use(cors());
 app.use(bodyparser.json());
 
 // bind routes to application

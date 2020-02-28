@@ -103,10 +103,10 @@ Spotify.prototype.processTracks = function(data) {
   //   return data;
 };
 
-Spotify.prototype.processTrack = function(q) {
+Spotify.prototype.processTrack = (q) => {
   q = JSON.parse(q);
   // append all artist names
-  let artists = [];
+  const artists = [];
   q.artists.forEach((v) => {
     artists.push(v.name);
   });
@@ -151,7 +151,6 @@ Spotify.prototype.seed = function() {
 };
 
 // automation functions
-
 // config to return current player status
 Spotify.prototype.getCurrentPlayerConfig = function() {
   return {
@@ -175,6 +174,26 @@ Spotify.prototype.addSongToPlaylist = function(songId) {
     },
     body: JSON.stringify({ uris: [uri] }),
   };
+};
+
+// function to filter the
+Spotify.prototype.filterSongsToShowLiveStatus = (data) => {
+  logger.info('filtering data');
+
+  const artists = [];
+  data.item.artists.forEach((v) => {
+    artists.push(v.name);
+  });
+
+  const processedData = {
+    name: data.item.name,
+    artist: artists,
+    media: data.item.album.images[0].url,
+    playbackTotal: data.duration_ms,
+    playbackDone: data.progress_ms,
+  };
+
+  return processedData;
 };
 
 module.exports = new Spotify();
