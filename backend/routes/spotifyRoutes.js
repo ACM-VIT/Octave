@@ -227,7 +227,6 @@ router.get(`/${process.env.FLUSH_ROUTE}`, (req, res) => {
 });
 
 function workLive() {
-  let oldId, oldName;
   request(spotify.getCurrentPlayerConfig(), (err, resp) => {
     // if any error in making request
     if (err) {
@@ -268,7 +267,7 @@ function workLive() {
       //   TODO -> prevent continous addition of song to playlist
 
       //   mark the song as "playing"
-      Tracks.updateOne({ id: data.item.id }, { playing: true }, (err) => {
+      Tracks.updateOne({ id: data.item.id }, { playing: true, played: true }, (err) => {
         if (err) {
           logger.error(`Error ${err.message}`);
         } else {
@@ -277,7 +276,7 @@ function workLive() {
       });
 
       // when only 10 seconds remain to add a new song
-      if (diff < 10) {
+      if (diff <= 11) {
         //   time to load a new song from database
         // change status of currently playing song
 
@@ -329,10 +328,9 @@ function workLive() {
       //     },
       //     message: 'ok',
       //   });
-    }
-    // perform further operations
-    //   if non 200 response code received, throw error
-    else {
+    } else {
+      // perform further operations
+      //   if non 200 response code received, throw error
       // log about error in console
       logger.error(`Invalid statusCode while getting Live Status ${resp.statusCode}`);
       //   show message to user
@@ -345,7 +343,6 @@ function workLive() {
 }
 
 router.get('/test', (req, res) => {
-  let oldId = 'currentPlayingId';
   Tracks.findOne({ played: false })
     .sort('-upvotes')
     .exec((error, track) => {
@@ -375,6 +372,7 @@ router.get('/test', (req, res) => {
       }
     });
 });
+
 router.get('/reset', (req, res) => {
   res.send('CLEARED');
   Tracks.updateMany({}, { played: false }, { multi: true }, (err) => {
@@ -384,7 +382,7 @@ router.get('/reset', (req, res) => {
 
 // function to return live data about player. supposed to be called once every n seconds
 // router.get('/live', (req, res) => {});
-setInterval(workLive, 11 * 1000);
+setInterval(workLive, 10 * 1000);
 
 // export everything !
 module.exports = router;
