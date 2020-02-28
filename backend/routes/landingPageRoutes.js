@@ -17,11 +17,6 @@ const router = express.Router();
 router.get('/', (req, res) => {
   return res.json({
     message: "Welcome to Octave: ACM's In house music engine",
-    documentation: 'https://acmoctave.azurewebsites.net/',
-    author: {
-      name: 'Yash Kumar Verma',
-      profile: 'http://github.com/yashkumarverma',
-    },
   });
 });
 
