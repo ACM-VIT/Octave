@@ -68,8 +68,7 @@ class MainPage extends React.Component {
           <div className="mx-32 flex">
             <PlayingSection nowPlaying={nowPlaying} />
             <div className="w-7/12 flex flex-col">
-              {/* <NextUpSection nextUp={nextUp} /> */}
-              <QueueSection queue={queue} user={user} songSearch={songSearch} />
+              <QueueSection queue={queue} songSearch={songSearch} />
             </div>
           </div>
         </div>

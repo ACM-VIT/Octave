@@ -25,7 +25,7 @@ class LandingPage extends React.Component {
   render() {
     const { history } = this.props;
     return (
-      <div className="bg-primary flex flex-col justify-evenly h-full cursor-default overflow-auto overflow-x-hidden">
+      <div className="bg-primary flex flex-col justify-evenly h-full cursor-default overflow-x-hidden absolute inset-0">
         <LandingHeader />
         <LandingGrid history={history} />
       </div>

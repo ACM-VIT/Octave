@@ -14,9 +14,9 @@ class SongCard extends React.Component {
   }
 
   componentDidMount() {
-    const { songInfo, user } = this.props;
+    const { songInfo } = this.props;
     console.log(songInfo);
-    if (songInfo.upvoters.includes(user.userID)) {
+    if (songInfo.upvoted) {
       this.setState(() => ({ isLiked: true }));
     }
   }
@@ -37,9 +37,7 @@ class SongCard extends React.Component {
       >
         <div>
           <div className="text-white song-title text-2xl">{songInfo.title}</div>
-          <div className="text-faded text-xl">
-            {songInfo.artists.join(', ')}
-          </div>
+          <div className="text-faded text-xl">{songInfo.artist.join(', ')}</div>
         </div>
         <div className="flex text-2xl text-contrast">
           <div>{songInfo.upvotes}</div>
@@ -62,13 +60,11 @@ export default SongCard;
 SongCard.propTypes = {
   styles: PropTypes.string,
   songInfo: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.objectOf(PropTypes.any),
   onClick: PropTypes.func
 };
 
 SongCard.defaultProps = {
   styles: '',
   songInfo: {},
-  user: {},
   onClick: () => []
 };
