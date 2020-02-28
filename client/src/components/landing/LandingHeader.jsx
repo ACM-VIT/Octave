@@ -28,12 +28,14 @@ class LandingHeader extends React.Component {
           height={(() => {
             if (windowWidth > 1600) return '96';
             if (windowWidth > 1140) return '79';
-            return '50';
+            if (windowWidth > 320) return '50';
+            return '40';
           })()}
           styles={(() => {
             if (windowWidth > 1600) return 'my-8';
             if (windowWidth > 1140) return 'my-6';
-            return 'my-4';
+            if (windowWidth > 870) return 'my-4';
+            return '';
           })()}
         />
         <div className="font-light text-xl md:text-3xl lg:text-4xl text-center text-white ">

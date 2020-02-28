@@ -64,7 +64,7 @@ class LandingGrid extends React.Component {
     const { information } = this.state;
     const { history, windowWidth } = this.props;
     return (
-      <div className="w-screen flex flex-col-reverse sm:flex-row mt-4 justify-around sm:justify-evenly items-center ">
+      <div className="w-screen flex flex-col-reverse sm:flex-row mt-0 sm:mt-4 justify-around sm:justify-evenly items-center ">
         <div className="w-full sm:w-1/2 flex flex-col mx-2 my-auto justify-center items-stretch">
           {information.map(info => (
             <OctaveInfo key={info.id} Icon={info.icon}>
