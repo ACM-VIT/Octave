@@ -15,7 +15,8 @@ class SongCard extends React.Component {
 
   componentDidMount() {
     const { songInfo, user } = this.props;
-    if (songInfo.likedBy.includes(user.userID)) {
+    console.log(songInfo);
+    if (songInfo.upvoters.includes(user.userID)) {
       this.setState(() => ({ isLiked: true }));
     }
   }
@@ -25,25 +26,11 @@ class SongCard extends React.Component {
   }
 
   render() {
-    const { styles, songInfo } = this.props;
+    const { styles, songInfo, onClick } = this.props;
     const { isLiked } = this.state;
 
     const heart = isLiked ? <FilledHeart /> : <EmptyHeart />;
 
-    if (typeof songInfo.upVotes === 'undefined') {
-      return (
-        <div
-          className={`bg-faded px-12 py-6 shadow-lg flex justify-between items-center ${styles}`}
-        >
-          <div>
-            <div className="text-white song-title text-2xl">
-              {songInfo.title}
-            </div>
-            <div className="text-faded text-xl">{songInfo.artists}</div>
-          </div>
-        </div>
-      );
-    }
     return (
       <div
         className={`bg-faded px-12 py-6 shadow-lg flex justify-between items-center ${styles}`}
@@ -55,12 +42,12 @@ class SongCard extends React.Component {
           </div>
         </div>
         <div className="flex text-2xl text-contrast">
-          <div>{songInfo.upVotes}</div>
+          <div>{songInfo.upvotes}</div>
           <div
             className="ml-4 cursor-pointer focus:outline-none"
             role="button"
             tabIndex={0}
-            onClick={this.handleLike.bind(this)}
+            onClick={onClick}
           >
             {heart}
           </div>
@@ -75,11 +62,13 @@ export default SongCard;
 SongCard.propTypes = {
   styles: PropTypes.string,
   songInfo: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.objectOf(PropTypes.any)
+  user: PropTypes.objectOf(PropTypes.any),
+  onClick: PropTypes.func
 };
 
 SongCard.defaultProps = {
   styles: '',
   songInfo: {},
-  user: {}
+  user: {},
+  onClick: () => []
 };

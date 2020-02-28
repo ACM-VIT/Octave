@@ -1,4 +1,5 @@
 import React from 'react';
+import windowSize from 'react-window-size';
 import PropTypes from 'prop-types';
 
 import C2CLogo from '../C2CLogo';
@@ -22,14 +23,25 @@ class Navbar extends React.Component {
 
   render() {
     const { isOpen } = this.state;
-    const { history, username, avatar } = this.props;
+    const { history, username, avatar, windowWidth } = this.props;
     return (
       <div className="relative">
-        <nav className="h-20 bg-secondary text-white px-32 flex items-center">
+        <nav className="h-16 lg:h-20 bg-secondary text-white px-32 flex items-center">
           <div className="flex justify-start w-1/3">
-            <C2CLogo height="50" />
+            <C2CLogo
+              height={(() => {
+                if (windowWidth > 1600) return '50';
+                return '40';
+              })()}
+            />
           </div>
-          <OctaveLogo height="30" styles="my-auto w-1/3" />
+          <OctaveLogo
+            height={(() => {
+              if (windowWidth > 1600) return '30';
+              return '25';
+            })()}
+            styles="my-auto w-1/3"
+          />
           <div
             className="w-1/3 focus:outline-none cursor-default"
             onClick={this.dropdownOpen.bind(this)}
@@ -45,16 +57,18 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
+export default windowSize(Navbar);
 
 Navbar.propTypes = {
   history: PropTypes.objectOf(PropTypes.any),
   username: PropTypes.string,
-  avatar: PropTypes.string
+  avatar: PropTypes.string,
+  windowWidth: PropTypes.number
 };
 
 Navbar.defaultProps = {
   history: {},
   username: '',
-  avatar: ''
+  avatar: '',
+  windowWidth: 0
 };

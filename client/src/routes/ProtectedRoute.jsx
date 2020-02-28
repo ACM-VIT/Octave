@@ -3,14 +3,11 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-// Fake auth
-import auth from '../auth';
-
 const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      if (auth.isAuthenticated()) {
+      if (true) {
         return <Component {...props} />;
       }
       return (

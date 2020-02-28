@@ -9,11 +9,15 @@ const UserDropdown = props => {
     <>
       {isOpen ? (
         <div className="text-white bg-faded absolute right-0 mr-32 flex flex-col shadow-lg">
-          <div className="px-12 py-4">
-            <img src={avatar} alt="Avatar" className="h-32 rounded-full" />
+          <div className="px-10 lg:px-12 py-4">
+            <img
+              src={avatar}
+              alt="Avatar"
+              className="h-24 lg:h-32 rounded-full"
+            />
           </div>
           <button
-            className="bg-contrast text-xl font-bold text-center w-full uppercase py-2 cursor-pointer hover:bg-green-700"
+            className="bg-contrast text-lg lg:text-xl font-bold text-center w-full uppercase py-2 cursor-pointer hover:bg-green-700"
             type="button"
             onClick={() => {
               auth.logout(() => {

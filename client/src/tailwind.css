@@ -56,8 +56,8 @@ input {
   background-color: #48ba86;
 }
 
-.h-queue {
-  height: 36.5vh;
+.h-screen-80 {
+  max-height: 80vh;
 }
 
 .width-inherit {

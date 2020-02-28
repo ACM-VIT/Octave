@@ -8,8 +8,8 @@ import SearchCard from './SearchCard';
 import EmptySearchCard from './EmptySearchCard';
 
 class QueueSection extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       isOpen: true
@@ -20,6 +20,17 @@ class QueueSection extends React.Component {
 
   handleClick() {
     this.setState(() => ({ isOpen: false }));
+  }
+
+  upOrDown(id) {
+    // alert(id);
+    const { queue } = this.props;
+
+    queue.forEach(song => {
+      if (song.id === id) {
+        // Handle likes
+      }
+    });
   }
 
   render() {
@@ -53,11 +64,14 @@ class QueueSection extends React.Component {
             </div>
           </div>
         </div>
-        <div className="overflow-y-scroll h-queue">
+        <div className="overflow-y-scroll h-screen-80 bg-secondary">
           {queue.map(songInfo => (
             <SongCard
               styles="mb-1"
               songInfo={songInfo}
+              onClick={() => {
+                this.upOrDown.bind(this)(songInfo.id);
+              }}
               key={songInfo.id}
               user={user}
             />
