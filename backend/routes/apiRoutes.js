@@ -31,6 +31,7 @@ google.seed();
 const router = express.Router();
 
 // define a middleware to check authentication
+// /*
 router.use((req, res, next) => {
   //   logger.info('Middleware working');
 
@@ -68,6 +69,7 @@ router.use((req, res, next) => {
   //   logger.info('Middleware Test Success');
   next();
 });
+// */
 
 // route to /api. shows welcome message, and (maybe) other stuff too
 router.get('/', (req, res) => {
@@ -85,8 +87,7 @@ router.post('/search', (req, res) => {
     logger.info(`Search for track '${q}' could not be completed`);
     res.json({
       error: true,
-      message:
-        'Passed query must be greater than or equal to 2 characters',
+      message: 'Passed query must be greater than or equal to 2 characters',
     });
   }
 
@@ -108,9 +109,7 @@ router.post('/search', (req, res) => {
       logger.info(`Track Search Complete :: ${q}`);
     } else {
       // handle not ok error codes
-      logger.error(
-        `Track Search Error :: ${q} :: ${response.statusCode}`,
-      );
+      logger.error(`Track Search Error :: ${q} :: ${response.statusCode}`);
       res.json({
         error: true,
         message: response.statusCode,
@@ -172,9 +171,7 @@ router.post('/upvote', (req, res) => {
               message: 'Error processing upvote',
             });
           } else {
-            logger.info(
-              `Removing upvoter ${req.profile.payload.id} from ${id}`,
-            );
+            logger.info(`Removing upvoter ${req.profile.payload.id} from ${id}`);
             // send what happened, newVote, or removeVote
             res.json({
               error: 0,
@@ -207,9 +204,7 @@ router.post('/upvote', (req, res) => {
             // if upvoter success
           } else {
             //   logggggin
-            logger.info(
-              `Adding upvoter ${req.profile.payload.id} to ${id}`,
-            );
+            logger.info(`Adding upvoter ${req.profile.payload.id} to ${id}`);
 
             // send what happened, newVote, or removeVote
             res.json({
@@ -291,9 +286,7 @@ router.post('/request', (req, res) => {
           track.save((e) => {
             // if any error in saving data
             if (e) {
-              logger.error(
-                `Error saving data of id ${id} : ${e.message}`,
-              );
+              logger.error(`Error saving data of id ${id} : ${e.message}`);
               res.json({
                 error: 1,
                 message: 'Internal database Error',
@@ -322,8 +315,7 @@ router.post('/request', (req, res) => {
       logger.warn(`Re-Insert Request for id : ${id}`);
       res.json({
         error: 1,
-        message:
-          'Track already in leaderboard. Upvote request expected',
+        message: 'Track already in leaderboard. Upvote request expected',
       });
     }
   });
@@ -332,14 +324,55 @@ router.post('/request', (req, res) => {
 
 // just vomit all data
 router.get('/leaderBoard', (req, res) => {
-  Track.find({}, (err, data) => {
-    if (err) {
+  Track.find({ played: false })
+    .sort([['upvotes', -1]])
+    .exec((err, data) => {
+      //   Track.find({ played: false }, (err, data) => {
+      if (err) {
+        logger.error(`Fetching leaderboard ${err.message}`);
+        res.json({
+          error: true,
+          message: err,
+        });
+        // process successful response
+      } else {
+        data = spotify.filterSongsToShowLeaderboard(data, req.profile.payload.id);
+        res.json({ data });
+      }
+    });
+});
+
+router.get('/live', (req, res) => {
+  request(spotify.getCurrentPlayerConfig(), (error, resp, body) => {
+    // if error in making request
+    if (error) {
+      logger.error(`${error.message}`);
       res.json({
-        error: 1,
-        message: err,
+        error: true,
+        message: 'Error making request',
       });
-    } else {
-      res.json({ data });
+    }
+
+    // if no error, filter what data to send
+    else if (resp.statusCode !== 200) {
+      logger.error(`Invalid Status Code while getting live status : ${resp.statusCode}`);
+      res.json({
+        error: true,
+        message: 'Invalid status code',
+      });
+
+      //   when empty response
+    } else if (resp.statusCode === 204) {
+      res.json({
+        error: false,
+        message: 'Playback Paused',
+      });
+    }
+
+    // if some data received
+    else {
+      const data = spotify.filterSongsToShowLiveStatus(JSON.parse(body));
+      res.json(data);
     }
   });
 });
