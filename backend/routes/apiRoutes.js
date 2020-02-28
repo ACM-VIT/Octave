@@ -31,6 +31,7 @@ google.seed();
 const router = express.Router();
 
 // define a middleware to check authentication
+/*
 router.use((req, res, next) => {
   //   logger.info('Middleware working');
 
@@ -68,7 +69,7 @@ router.use((req, res, next) => {
   //   logger.info('Middleware Test Success');
   next();
 });
-
+*/
 // route to /api. shows welcome message, and (maybe) other stuff too
 router.get('/', (req, res) => {
   res.json({
@@ -322,16 +323,21 @@ router.post('/request', (req, res) => {
 
 // just vomit all data
 router.get('/leaderBoard', (req, res) => {
-  Track.find({}, (err, data) => {
-    if (err) {
-      res.json({
-        error: 1,
-        message: err,
-      });
-    } else {
-      res.json({ data });
-    }
-  });
+  Track.find({ played: false })
+    .sort([['upvotes', -1]])
+    .exec((err, data) => {
+      //   Track.find({ played: false }, (err, data) => {
+      if (err) {
+        logger.error(`Fetching leaderboard ${err.message}`);
+        res.json({
+          error: 1,
+          message: err,
+        });
+        // process successful response
+      } else {
+        res.json({ data });
+      }
+    });
 });
 
 router.get('/live', (req, res) => {
@@ -368,5 +374,6 @@ router.get('/live', (req, res) => {
     }
   });
 });
+
 // export everything !
 module.exports = router;
