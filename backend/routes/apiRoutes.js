@@ -351,26 +351,22 @@ router.get('/live', (req, res) => {
         error: true,
         message: 'Error making request',
       });
-    }
-
-    // if no error, filter what data to send
-    else if (resp.statusCode !== 200) {
-      logger.error(`Invalid Status Code while getting live status : ${resp.statusCode}`);
-      res.json({
-        error: true,
-        message: 'Invalid status code',
-      });
-
       //   when empty response
     } else if (resp.statusCode === 204) {
       res.json({
         error: false,
         message: 'Playback Paused',
       });
-    }
 
-    // if some data received
-    else {
+      // if no error, filter what data to send
+    } else if (resp.statusCode !== 200) {
+      logger.error(`Invalid Status Code while getting live status : ${resp.statusCode}`);
+      res.json({
+        error: true,
+        message: 'Invalid status code',
+      });
+    } else {
+      // if some data received
       const data = spotify.filterSongsToShowLiveStatus(JSON.parse(body));
       res.json(data);
     }
