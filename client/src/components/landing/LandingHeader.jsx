@@ -2,6 +2,7 @@
 import React from 'react';
 import windowSize from 'react-window-size';
 import PropTypes from 'prop-types';
+import gsap from 'gsap';
 
 import C2CLogo from '../C2CLogo';
 import OctaveLogo from '../OctaveLogo';
@@ -9,6 +10,14 @@ import OctaveLogo from '../OctaveLogo';
 class LandingHeader extends React.Component {
   render() {
     const { windowWidth } = this.props;
+
+    gsap.from('header', {
+      opacity: 0,
+      duration: 2,
+      ease: 'circ.out',
+      y: -50
+    });
+    gsap.from('.banner', { opacity: 0, duration: 1, y: -50 });
 
     return (
       <header className="flex col flex-col items-center justify-center w-screen ">
@@ -38,7 +47,7 @@ class LandingHeader extends React.Component {
             return '';
           })()}
         />
-        <div className="font-light text-xl md:text-3xl lg:text-4xl text-center text-white ">
+        <div className="banner font-light text-xl md:text-3xl lg:text-4xl text-center text-white ">
           <span className="text-green-600 ">You </span>
           choose what plays
         </div>

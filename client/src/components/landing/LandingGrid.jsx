@@ -1,6 +1,7 @@
 import React from 'react';
 import windowSize from 'react-window-size';
 import PropTypes from 'prop-types';
+import gsap from 'gsap';
 
 import OctaveInfo from './OctaveInfo';
 import Divider from './Divider';
@@ -63,9 +64,27 @@ class LandingGrid extends React.Component {
   render() {
     const { information } = this.state;
     const { history, windowWidth } = this.props;
+
+    const tl = gsap.timeline({ defaults: { duration: 1 } });
+    tl.from('.grid-total', {
+      opacity: 0,
+      duration: 3,
+      delay: 0.2
+    })
+      .from(
+        '.octave-info-left',
+        { x: 30, opacity: 0, ease: 'sine.out' },
+        '-=2.5'
+      )
+      .from(
+        '.octave-info-right',
+        { x: -30, opacity: 0, ease: 'sine.out' },
+        '-=2.5'
+      );
+
     return (
-      <div className="w-screen flex flex-col-reverse sm:flex-row mt-0 sm:mt-4 justify-around sm:justify-evenly items-center ">
-        <div className="w-full sm:w-1/2 flex flex-col mx-2 my-auto justify-center items-stretch">
+      <div className="grid-total w-screen flex flex-col-reverse sm:flex-row mt-0 sm:mt-4 justify-around sm:justify-evenly items-center ">
+        <div className="octave-info-left w-full sm:w-1/2 flex flex-col mx-2 my-auto justify-center items-stretch">
           {information.map(info => (
             <OctaveInfo key={info.id} Icon={info.icon}>
               {info.text}
@@ -80,7 +99,7 @@ class LandingGrid extends React.Component {
           })()}
           styles={windowWidth > 870 ? '' : 'hidden'}
         />
-        <div className="sm:w-1/2 flex flex-col my-2 justify-center items-start px-32">
+        <div className="octave-info-right sm:w-1/2 flex flex-col my-2 justify-center items-start px-32">
           <div className="text-white text-sm md:text-xl text-center w-48 md:w-64">
             Continue as internal
           </div>
