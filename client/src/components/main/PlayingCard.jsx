@@ -12,10 +12,10 @@ const PlayingCard = props => {
           className="w-full px-10 py-5"
         />
         <div className="mx-10 pb-5">
-          <div className="text-white text-4xl song-title">
+          <div className="text-white text-xl sm:text-4xl song-title">
             {nowPlaying.name}
           </div>
-          <div className="text-white text-xl text-faded">
+          <div className="text-white text-sm sm:text-xl text-faded">
             {nowPlaying.artist.join(', ')}
           </div>
         </div>
@@ -29,7 +29,7 @@ const PlayingCard = props => {
         </div>
       </div>
       <div className="mx-10 pb-5 mt-4">
-        <div className="text-white text-4xl song-title text-center">
+        <div className="text-white text-xl sm:text-4xl song-title text-center">
           Playback Paused
         </div>
       </div>

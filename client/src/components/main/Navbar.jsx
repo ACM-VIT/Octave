@@ -26,8 +26,8 @@ class Navbar extends React.Component {
     const { history, username, avatar, windowWidth } = this.props;
     return (
       <div className="relative">
-        <nav className="h-16 lg:h-20 bg-secondary text-white px-32 flex items-center">
-          <div className="flex justify-start w-1/3">
+        <nav className="h-16 lg:h-20 bg-secondary text-white px-4 sm:px-32 flex items-center">
+          <div className="hidden sm:flex justify-start w-1/3">
             <C2CLogo
               height={(() => {
                 if (windowWidth > 1600) return '50';
@@ -35,15 +35,18 @@ class Navbar extends React.Component {
               })()}
             />
           </div>
-          <OctaveLogo
-            height={(() => {
-              if (windowWidth > 1600) return '30';
-              return '25';
-            })()}
-            styles="my-auto w-1/3"
-          />
+          <div className="block sm:flex justify-center items-center w-1/2 sm:w-1/3">
+            <OctaveLogo
+              height={(() => {
+                if (windowWidth > 1600) return '30';
+                return '25';
+              })()}
+              styles="my-auto"
+            />
+          </div>
+
           <div
-            className="w-1/3 focus:outline-none cursor-default"
+            className="w-1/2 sm:w-1/3 focus:outline-none cursor-default"
             onClick={this.dropdownOpen.bind(this)}
             role="button"
             tabIndex={0}

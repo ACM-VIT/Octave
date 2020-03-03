@@ -6,7 +6,7 @@ const UserDropdown = props => {
   return (
     <>
       {isOpen ? (
-        <div className="text-white bg-faded absolute right-0 mr-32 flex flex-col shadow-lg z-10">
+        <div className="text-white bg-faded absolute right-0 mr-4 sm:mr-32 flex flex-col shadow-lg z-50">
           <div className="px-10 lg:px-12 py-4">
             <img
               src={avatar}

@@ -37,17 +37,17 @@ class SearchBox extends React.Component {
   render() {
     const { title } = this.state;
     return (
-      <form className="flex flex-row z-50" onSubmit={this.handleSubmit}>
+      <form className="flex flex-row z-40" onSubmit={this.handleSubmit}>
         <input
           type="text"
-          className="bg-faded px-8 py-0 text-xl text-white box-border w-11/12 placeholder-white"
+          className="bg-faded px-8 py-0 text-base sm:text-xl text-white box-border w-9/12 sm:w-11/12 placeholder-white"
           placeholder="Add a Song to Queue"
           value={title}
           onChange={this.handleChange}
         />
         <input
           type="submit"
-          className="h-full w-1/12 cursor-pointer text-5xl leading-none hover:bg-green-700 bg-contrast"
+          className="h-full w-3/12 sm:w-1/12 cursor-pointer text-5xl leading-none hover:bg-green-700 bg-contrast"
           value="+"
         />
       </form>

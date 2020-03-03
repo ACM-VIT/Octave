@@ -41,13 +41,17 @@ class SongCard extends React.Component {
 
     return (
       <div
-        className={`bg-faded px-12 py-4 shadow-lg flex justify-between items-center ${styles}`}
+        className={`bg-faded px-8 sm:px-12 py-4 shadow-lg flex justify-between items-center ${styles}`}
       >
         <div>
-          <div className="text-white song-title text-2xl">{songInfo.title}</div>
-          <div className="text-faded text-xl">{songInfo.artist.join(', ')}</div>
+          <div className="text-white song-title text-xl sm:text-2xl">
+            {songInfo.title}
+          </div>
+          <div className="text-faded text-sm sm:text-xl">
+            {songInfo.artist.join(', ')}
+          </div>
         </div>
-        <div className="flex text-2xl text-contrast">
+        <div className="flex text-xl sm:text-2xl text-contrast">
           <div>{songInfo.upvotes}</div>
           <div
             className="ml-4 cursor-pointer focus:outline-none"

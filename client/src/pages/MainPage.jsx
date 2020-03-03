@@ -67,9 +67,9 @@ class MainPage extends React.Component {
             username={user.username}
             avatar={user.avatar}
           />
-          <div className="mx-32 flex">
+          <div className="mx-4 sm:mx-32 flex flex-col md:flex-row">
             <PlayingSection nowPlaying={nowPlaying} />
-            <div className="w-7/12 flex flex-col">
+            <div className="w-full md:w-7/12 flex flex-col">
               <QueueSection
                 queue={queue}
                 sendToSearchQueue={this.sendToSearchQueue}

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -38,16 +39,23 @@ class QueueSection extends React.Component {
     queue = queue.filter(songInfo => songInfo.upvotes !== 0);
 
     return (
-      <section className="mt-5 pl-10">
-        <div className="flex justify-between">
+      <section className="mt-5 md:pl-10">
+        <div className="flex flex-col sm:flex-row justify-between">
           <SectionHeader>Queue</SectionHeader>
-          <div className="flex flex-col w-2/3 mb-5 py-2 items-stretch relative">
+          <div className="flex flex-col w-full sm:w-2/3 mb-5 py-2 items-stretch relative">
             <SearchBox
               sendToSearchQueue={this.sendToSearchQueue}
               toggleDropdown={this.toggleDropdown}
             />
             <div className={isOpen ? '' : 'hidden'}>
-              <div className="fixed h-screen w-screen bg-black inset-0 opacity-25 cursor-pointer" onClick={()=>{this.toggleDropdown(false)}}/>
+              <div
+                className="fixed h-screen w-screen bg-black inset-0 opacity-25 cursor-pointer"
+                onClick={() => {
+                  this.toggleDropdown(false);
+                }}
+                role="button"
+                tabIndex="0"
+              />
               <div className="bg-lighter-primary absolute w-full border-solid border-4 border-lighter-primary">
                 {searchList.length > 0 ? (
                   searchList.map(songInfo => (
@@ -67,7 +75,7 @@ class QueueSection extends React.Component {
             </div>
           </div>
         </div>
-        <div className="overflow-y-scroll h-screen-60 bg-secondary">
+        <div className="md:overflow-y-scroll h-screen-60 bg-secondary">
           {queue.map(songInfo => (
             <SongCard
               styles="mb-1"

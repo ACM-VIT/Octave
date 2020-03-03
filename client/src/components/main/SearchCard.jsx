@@ -24,8 +24,8 @@ const SearchCard = props => {
     >
       <div className="flex justify-between items-center">
         <div>
-          <div className="text-2xl text-white">{songInfo.name}</div>
-          <div className="text-base text-faded">
+          <div className="text-xl sm:text-2xl text-white">{songInfo.name}</div>
+          <div className="text-sm sm:text-base text-faded">
             {songInfo.artist.join(', ')}
           </div>
         </div>
