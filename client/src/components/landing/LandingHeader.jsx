@@ -8,9 +8,7 @@ import C2CLogo from '../C2CLogo';
 import OctaveLogo from '../OctaveLogo';
 
 class LandingHeader extends React.Component {
-  render() {
-    const { windowWidth } = this.props;
-
+  componentDidMount() {
     gsap.from('header', {
       opacity: 0,
       duration: 2,
@@ -18,6 +16,10 @@ class LandingHeader extends React.Component {
       y: -50
     });
     gsap.from('.banner', { opacity: 0, duration: 1, y: -50 });
+  }
+
+  render() {
+    const { windowWidth } = this.props;
 
     return (
       <header className="flex col flex-col items-center justify-center w-screen ">

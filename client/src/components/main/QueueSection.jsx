@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
+import gsap from 'gsap';
 
 import SectionHeader from './SectionHeader';
 import SongCard from './SongCard';
@@ -18,6 +19,10 @@ class QueueSection extends React.Component {
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
+  }
+
+  componentDidMount() {
+    gsap.from('.queue-section', { opacity: 0, duration: 1, x: 30 });
   }
 
   toggleDropdown(open) {
@@ -39,7 +44,7 @@ class QueueSection extends React.Component {
     queue = queue.filter(songInfo => songInfo.upvotes !== 0);
 
     return (
-      <section className="mt-5 md:pl-10">
+      <section className="queue-section mt-5 md:pl-10">
         <div className="flex flex-col sm:flex-row justify-between">
           <SectionHeader>Queue</SectionHeader>
           <div className="flex flex-col w-full sm:w-2/3 mb-5 py-2 items-stretch relative">

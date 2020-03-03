@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import gsap from 'gsap';
 
 import { getSearch } from '../../requests';
 
@@ -13,6 +14,10 @@ class SearchBox extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    gsap.from('.search-box', { opacity: 0, duration: 1, y: 30 });
   }
 
   handleChange(e) {
@@ -37,7 +42,10 @@ class SearchBox extends React.Component {
   render() {
     const { title } = this.state;
     return (
-      <form className="flex flex-row z-40" onSubmit={this.handleSubmit}>
+      <form
+        className="search-box flex flex-row z-40"
+        onSubmit={this.handleSubmit}
+      >
         <input
           type="text"
           className="bg-faded px-8 py-0 text-base sm:text-xl text-white box-border w-9/12 sm:w-11/12 placeholder-white"

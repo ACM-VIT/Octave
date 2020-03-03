@@ -6,6 +6,7 @@ import PlayingCard from './PlayingCard';
 
 const PlayingSection = props => {
   const { nowPlaying } = props;
+
   return (
     <aside className="w-full md:w-5/12 md:pr-10 mt-5">
       <SectionHeader>Now Playing</SectionHeader>

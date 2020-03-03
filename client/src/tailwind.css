@@ -76,7 +76,7 @@ input {
 
   50% {
     opacity: 1;
-    transform: translateX(100px) rotate(0deg);
+    transform: translateX(100px) rotate(10deg);
   }
 
   100% {

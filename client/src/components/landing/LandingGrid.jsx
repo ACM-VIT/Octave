@@ -61,10 +61,7 @@ class LandingGrid extends React.Component {
     };
   }
 
-  render() {
-    const { information } = this.state;
-    const { history, windowWidth } = this.props;
-
+  componentDidMount() {
     const tl = gsap.timeline({ defaults: { duration: 1 } });
     tl.from('.grid-total', {
       opacity: 0,
@@ -81,6 +78,11 @@ class LandingGrid extends React.Component {
         { x: -30, opacity: 0, ease: 'sine.out' },
         '-=2.5'
       );
+  }
+
+  render() {
+    const { information } = this.state;
+    const { history, windowWidth } = this.props;
 
     return (
       <div className="grid-total w-screen flex flex-col-reverse sm:flex-row mt-0 sm:mt-4 justify-around sm:justify-evenly items-center ">
