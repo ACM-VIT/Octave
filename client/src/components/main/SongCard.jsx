@@ -15,7 +15,6 @@ class SongCard extends React.Component {
 
   componentDidMount() {
     const { songInfo } = this.props;
-    console.log(songInfo);
     if (songInfo.upvoted) {
       this.setState(() => ({ isLiked: true }));
     }

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v1 as uuid } from 'uuid';
 
 import { getQueue, getUser, getNowPlaying } from '../requests';
 
@@ -12,24 +11,9 @@ class MainPage extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      songSearch: [
-        {
-          id: 1,
-          title: 'Closer (feat. Halsey)',
-          artists: ['The Chainsmokers', 'Halsey'],
-          albumArt:
-            'https://i.scdn.co/image/ab67616d0000b273495ce6da9aeb159e94eaa453'
-        },
-        {
-          id: uuid(),
-          title: 'Closer',
-          artists: ['Mickey Singh', 'Dilpreet Dhillon'],
-          albumArt:
-            'https://i.scdn.co/image/ab67616d0000b2733e6b572922169a736610f5c1'
-        }
-      ]
-    };
+    this.state = {};
+
+    this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
   }
 
   componentDidMount() {
@@ -54,9 +38,14 @@ class MainPage extends React.Component {
       .catch(err => console.log(err));
   }
 
+  sendToSearchQueue(searchList) {
+    console.log(searchList);
+    this.setState({ searchList });
+  }
+
   render() {
     const { history } = this.props;
-    const { user, nowPlaying, queue, songSearch } = this.state;
+    const { user, nowPlaying, queue, searchList } = this.state;
     if (user && nowPlaying)
       return (
         <div className="bg-primary h-full cursor-default overflow-auto">
@@ -68,7 +57,11 @@ class MainPage extends React.Component {
           <div className="mx-32 flex">
             <PlayingSection nowPlaying={nowPlaying} />
             <div className="w-7/12 flex flex-col">
-              <QueueSection queue={queue} songSearch={songSearch} />
+              <QueueSection
+                queue={queue}
+                sendToSearchQueue={this.sendToSearchQueue}
+                searchList={searchList}
+              />
             </div>
           </div>
         </div>

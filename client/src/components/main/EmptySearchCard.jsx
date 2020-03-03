@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { ReactComponent as SearchIcon } from '../../icons/MagnifyIcon.svg';
 
 const EmptySearchCard = props => {
-  const { handleClick } = props;
+  const { toggleDropdown } = props;
 
   return (
     <div
       className="p-4 text-faded flex justify-center items-center text-xl cursor-pointer focus:outline-none"
-      onClick={handleClick}
+      onClick={toggleDropdown}
       role="button"
       tabIndex="0"
     >
@@ -21,9 +21,9 @@ const EmptySearchCard = props => {
 export default EmptySearchCard;
 
 EmptySearchCard.propTypes = {
-  handleClick: PropTypes.func
+  toggleDropdown: PropTypes.func
 };
 
 EmptySearchCard.defaultProps = {
-  handleClick: () => []
+  toggleDropdown: () => []
 };

@@ -15,11 +15,12 @@ class QueueSection extends React.Component {
       isOpen: true
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
   }
 
-  handleClick() {
-    this.setState(() => ({ isOpen: false }));
+  toggleDropdown() {
+    this.setState(state => ({ isOpen: !state.isOpen }));
   }
 
   upOrDown(id) {
@@ -33,10 +34,15 @@ class QueueSection extends React.Component {
     });
   }
 
+  sendToSearchQueue(songList) {
+    const { sendToSearchQueue } = this.props;
+    sendToSearchQueue(songList);
+  }
+
   render() {
     let { queue } = this.props;
-    const { songSearch } = this.props;
     const { isOpen } = this.state;
+    const { searchList } = this.props;
 
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
 
@@ -45,20 +51,24 @@ class QueueSection extends React.Component {
         <div className="flex justify-between">
           <SectionHeader>Queue</SectionHeader>
           <div className="flex flex-col w-2/3 mb-5 py-2 items-stretch relative">
-            <SearchBox />
+            <SearchBox
+              sendToSearchQueue={this.sendToSearchQueue}
+              toggleDropdown={this.toggleDropdown}
+            />
             <div className={isOpen ? '' : 'hidden'}>
               <div className="bg-lighter-primary absolute w-full border-solid border-4 border-lighter-primary">
-                {songSearch.length > 0 ? (
-                  songSearch.map(songInfo => (
+                {searchList.length > 0 ? (
+                  searchList.map(songInfo => (
                     <SearchCard
                       songInfo={songInfo}
                       key={songInfo.id}
                       queue={queue}
-                      handleClick={this.handleClick}
+                      toggleDropdown={this.toggleDropdown}
+                      sendToSearchQueue={this.sendToSearchQueue}
                     />
                   ))
                 ) : (
-                  <EmptySearchCard handleClick={this.handleClick} />
+                  <EmptySearchCard toggleDropdown={this.toggleDropdown} />
                 )}
               </div>
             </div>
@@ -85,10 +95,12 @@ export default QueueSection;
 
 QueueSection.propTypes = {
   queue: PropTypes.arrayOf(PropTypes.any),
-  songSearch: PropTypes.arrayOf(PropTypes.any)
+  sendToSearchQueue: PropTypes.func,
+  searchList: PropTypes.arrayOf(PropTypes.any)
 };
 
 QueueSection.defaultProps = {
   queue: [],
-  songSearch: []
+  sendToSearchQueue: () => [],
+  searchList: []
 };

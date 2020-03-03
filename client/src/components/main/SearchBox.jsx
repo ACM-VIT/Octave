@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import { getSearch } from '../../requests';
 
 class SearchBox extends React.Component {
   constructor() {
@@ -17,9 +20,18 @@ class SearchBox extends React.Component {
   }
 
   handleSubmit(e) {
+    const { sendToSearchQueue, toggleDropdown } = this.props;
+    const { title } = this.state;
     e.preventDefault();
-    // Pass title value to parent
-    this.setState({ title: '' });
+    getSearch(title)
+      .then(songSearch => {
+        sendToSearchQueue(songSearch.data);
+        toggleDropdown();
+      })
+      .then(() => {
+        this.setState({ title: '' });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -44,3 +56,11 @@ class SearchBox extends React.Component {
 }
 
 export default SearchBox;
+
+SearchBox.propTypes = {
+  sendToSearchQueue: PropTypes.func
+};
+
+SearchBox.defaultProps = {
+  sendToSearchQueue: () => []
+};
