@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { upvoteTrack } from '../../requests';
+
 import { ReactComponent as EmptyHeart } from '../../icons/EmptyHeart.svg';
 import { ReactComponent as FilledHeart } from '../../icons/FilledHeart.svg';
 
@@ -11,6 +13,8 @@ class SongCard extends React.Component {
     this.state = {
       isLiked: false
     };
+
+    this.handleLike = this.handleLike.bind(this);
   }
 
   componentDidMount() {
@@ -21,18 +25,23 @@ class SongCard extends React.Component {
   }
 
   handleLike() {
-    this.setState(state => ({ isLiked: !state.isLiked }));
+    const { songInfo, reRenderQueue } = this.props;
+    upvoteTrack(songInfo.id)
+      .then(() => reRenderQueue())
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
-    const { styles, songInfo, onClick } = this.props;
+    const { styles, songInfo } = this.props;
     const { isLiked } = this.state;
 
     const heart = isLiked ? <FilledHeart /> : <EmptyHeart />;
 
     return (
       <div
-        className={`bg-faded px-12 py-6 shadow-lg flex justify-between items-center ${styles}`}
+        className={`bg-faded px-12 py-4 shadow-lg flex justify-between items-center ${styles}`}
       >
         <div>
           <div className="text-white song-title text-2xl">{songInfo.title}</div>
@@ -44,7 +53,7 @@ class SongCard extends React.Component {
             className="ml-4 cursor-pointer focus:outline-none"
             role="button"
             tabIndex={0}
-            onClick={onClick}
+            onClick={this.handleLike}
           >
             {heart}
           </div>
@@ -59,11 +68,11 @@ export default SongCard;
 SongCard.propTypes = {
   styles: PropTypes.string,
   songInfo: PropTypes.objectOf(PropTypes.any),
-  onClick: PropTypes.func
+  reRenderQueue: PropTypes.func
 };
 
 SongCard.defaultProps = {
   styles: '',
   songInfo: {},
-  onClick: () => []
+  reRenderQueue: () => []
 };

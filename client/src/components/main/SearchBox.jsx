@@ -26,7 +26,7 @@ class SearchBox extends React.Component {
     getSearch(title)
       .then(songSearch => {
         sendToSearchQueue(songSearch.data);
-        toggleDropdown();
+        toggleDropdown(true);
       })
       .then(() => {
         this.setState({ title: '' });
@@ -37,7 +37,7 @@ class SearchBox extends React.Component {
   render() {
     const { title } = this.state;
     return (
-      <form className="flex flex-row" onSubmit={this.handleSubmit}>
+      <form className="flex flex-row z-50" onSubmit={this.handleSubmit}>
         <input
           type="text"
           className="bg-faded px-8 py-0 text-xl text-white box-border w-11/12 placeholder-white"

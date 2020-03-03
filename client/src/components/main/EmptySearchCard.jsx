@@ -8,7 +8,7 @@ const EmptySearchCard = props => {
 
   return (
     <div
-      className="p-4 text-faded flex justify-center items-center text-xl cursor-pointer focus:outline-none"
+      className="p-4 text-faded flex justify-center items-center text-xl cursor-pointer focus:outline-none z-50"
       onClick={toggleDropdown}
       role="button"
       tabIndex="0"

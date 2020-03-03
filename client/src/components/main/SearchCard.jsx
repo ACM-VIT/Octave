@@ -9,7 +9,7 @@ const SearchCard = props => {
   const handleRequest = () => {
     requestSong(songInfo.id)
       .then(() => reRenderQueue())
-      .then(() => toggleDropdown())
+      .then(() => toggleDropdown(false))
       .catch(err => {
         console.log(err);
       });
@@ -31,7 +31,9 @@ const SearchCard = props => {
         </div>
         <div
           className={
-            queue.some(song => song.id === songInfo.id)
+            queue.some(
+              song => song.id === songInfo.id && songInfo.upvotes !== 0
+            )
               ? 'text-contrast text-xl text-right'
               : 'text-contrast opacity-0 text-xl'
           }

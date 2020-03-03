@@ -9,7 +9,7 @@ const PlayingCard = props => {
         <img
           src={nowPlaying.media}
           alt="Album Art"
-          className="w-full p-10 pb-5"
+          className="w-full px-10 py-5"
         />
         <div className="mx-10 pb-5">
           <div className="text-white text-4xl song-title">

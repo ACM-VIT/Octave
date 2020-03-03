@@ -19,19 +19,9 @@ class QueueSection extends React.Component {
     this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
   }
 
-  toggleDropdown() {
-    this.setState(state => ({ isOpen: !state.isOpen }));
-  }
-
-  upOrDown(id) {
-    // alert(id);
-    const { queue } = this.props;
-
-    queue.forEach(song => {
-      if (song.id === id) {
-        // Handle likes
-      }
-    });
+  toggleDropdown(open) {
+    if (open) this.setState({ isOpen: true });
+    else this.setState({ isOpen: false });
   }
 
   sendToSearchQueue(songList) {
@@ -45,6 +35,7 @@ class QueueSection extends React.Component {
     const { searchList, reRenderQueue } = this.props;
 
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
+    queue = queue.filter(songInfo => songInfo.upvotes !== 0);
 
     return (
       <section className="mt-5 pl-10">
@@ -56,6 +47,7 @@ class QueueSection extends React.Component {
               toggleDropdown={this.toggleDropdown}
             />
             <div className={isOpen ? '' : 'hidden'}>
+              <div className="fixed h-screen w-screen bg-black inset-0 opacity-25 cursor-pointer" onClick={()=>{this.toggleDropdown(false)}}/>
               <div className="bg-lighter-primary absolute w-full border-solid border-4 border-lighter-primary">
                 {searchList.length > 0 ? (
                   searchList.map(songInfo => (
@@ -75,15 +67,13 @@ class QueueSection extends React.Component {
             </div>
           </div>
         </div>
-        <div className="overflow-y-scroll h-screen-80 bg-secondary">
+        <div className="overflow-y-scroll h-screen-60 bg-secondary">
           {queue.map(songInfo => (
             <SongCard
               styles="mb-1"
               songInfo={songInfo}
-              onClick={() => {
-                this.upOrDown.bind(this)(songInfo.id);
-              }}
               key={songInfo.id}
+              reRenderQueue={reRenderQueue}
             />
           ))}
         </div>

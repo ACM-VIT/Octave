@@ -70,4 +70,26 @@ const requestSong = songID => {
   });
 };
 
-export { getQueue, getUser, getNowPlaying, getSearch, requestSong };
+const upvoteTrack = songID => {
+  return new Promise(resolve => {
+    axios({
+      method: 'POST',
+      url: `${baseURL}/api/upvote`,
+      data: qs.stringify({
+        id: songID
+      }),
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => resolve(res));
+  });
+};
+
+export {
+  getQueue,
+  getUser,
+  getNowPlaying,
+  getSearch,
+  requestSong,
+  upvoteTrack
+};
