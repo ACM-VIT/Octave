@@ -408,6 +408,10 @@ img {
   height: auto;
 }
 
+.bg-black {
+  background-color: #000;
+}
+
 .bg-white {
   background-color: #fff;
 }
@@ -541,6 +545,10 @@ img {
 
 .h-full {
   height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
 }
 
 .leading-10 {
@@ -872,6 +880,88 @@ body {
 input {
   outline-color: #48ba86;
   outline-width: 3px;
+}
+
+.loading {
+  color: #333;
+  position: relative;
+}
+
+.loading span {
+  position: absolute;
+  display: inline-block;
+  -webkit-animation-name: loading;
+          animation-name: loading;
+  -webkit-animation-duration: 4s;
+          animation-duration: 4s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  opacity: 0;
+}
+
+.loading span:nth-child(1) {
+  -webkit-animation-delay: .6s;
+          animation-delay: .6s;
+}
+
+.loading span:nth-child(2) {
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+}
+
+.loading span:nth-child(3) {
+  -webkit-animation-delay: 3.4s;
+          animation-delay: 3.4s;
+}
+
+.line {
+  width: 150px;
+  height: 3px;
+  background-color: #48ba86;
+  -webkit-transform: translateY(30px);
+          transform: translateY(30px);
+}
+
+.line:before {
+  content: 'Loading...';
+  font-family: redHatLight, sans-serif;
+  position: absolute;
+  font-weight: bold;
+  text-transform: uppercase;
+  bottom: -30px;
+  left: 0;
+  color: #fff;
+  letter-spacing: 3px;
+  -webkit-animation: before 2s linear infinite;
+          animation: before 2s linear infinite;
+}
+
+@keyframes before {
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-50px) rotate(0deg);
+            transform: translateX(-50px) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    -webkit-transform: translateX(100px) rotate(0deg);
+            transform: translateX(100px) rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateX(150px) translateY(100px) rotate(1260deg);
+            transform: translateX(150px) translateY(100px) rotate(1260deg);
+  }
 }
 
 .username:hover {

@@ -6,6 +6,7 @@ import { getQueue, getUser, getNowPlaying } from '../requests';
 import Navbar from '../components/main/Navbar';
 import PlayingSection from '../components/main/PlayingSection';
 import QueueSection from '../components/main/QueueSection';
+import LoadingAnimation from '../components/LoadingAnimation';
 
 class MainPage extends React.Component {
   constructor() {
@@ -66,8 +67,7 @@ class MainPage extends React.Component {
           </div>
         </div>
       );
-
-    return <div />;
+    return <LoadingAnimation />;
   }
 }
 
