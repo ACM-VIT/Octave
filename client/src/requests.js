@@ -55,4 +55,19 @@ const getSearch = songQuery => {
   });
 };
 
-export { getQueue, getUser, getNowPlaying, getSearch };
+const requestSong = songID => {
+  return new Promise(resolve => {
+    axios({
+      method: 'POST',
+      url: `${baseURL}/api/request`,
+      data: qs.stringify({
+        id: songID
+      }),
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => resolve(res));
+  });
+};
+
+export { getQueue, getUser, getNowPlaying, getSearch, requestSong };

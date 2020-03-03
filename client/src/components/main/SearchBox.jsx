@@ -58,9 +58,11 @@ class SearchBox extends React.Component {
 export default SearchBox;
 
 SearchBox.propTypes = {
-  sendToSearchQueue: PropTypes.func
+  sendToSearchQueue: PropTypes.func,
+  toggleDropdown: PropTypes.func
 };
 
 SearchBox.defaultProps = {
-  sendToSearchQueue: () => []
+  sendToSearchQueue: () => [],
+  toggleDropdown: () => []
 };

@@ -15,6 +15,7 @@ class MainPage extends React.Component {
     this.state = {};
 
     this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
+    this.reRenderQueue = this.reRenderQueue.bind(this);
   }
 
   componentDidMount() {
@@ -40,14 +41,25 @@ class MainPage extends React.Component {
   }
 
   sendToSearchQueue(searchList) {
-    console.log(searchList);
     this.setState({ searchList });
+  }
+
+  reRenderQueue() {
+    getQueue()
+      .then(queue => {
+        console.log('intitiating');
+        this.setState({ queue });
+        console.log('terminating');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
     const { history } = this.props;
     const { user, nowPlaying, queue, searchList } = this.state;
-    if (user && nowPlaying)
+    if (user && nowPlaying && queue)
       return (
         <div className="bg-primary h-full cursor-default overflow-auto">
           <Navbar
@@ -62,6 +74,7 @@ class MainPage extends React.Component {
                 queue={queue}
                 sendToSearchQueue={this.sendToSearchQueue}
                 searchList={searchList}
+                reRenderQueue={this.reRenderQueue}
               />
             </div>
           </div>

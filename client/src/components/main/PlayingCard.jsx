@@ -13,7 +13,7 @@ const PlayingCard = props => {
         />
         <div className="mx-10 pb-5">
           <div className="text-white text-4xl song-title">
-            {nowPlaying.title}
+            {nowPlaying.name}
           </div>
           <div className="text-white text-xl text-faded">
             {nowPlaying.artist.join(', ')}

@@ -1,13 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { requestSong } from '../../requests';
+
 const SearchCard = props => {
-  const { songInfo, queue, toggleDropdown } = props;
+  const { songInfo, queue, toggleDropdown, reRenderQueue } = props;
+
+  const handleRequest = () => {
+    requestSong(songInfo.id)
+      .then(() => reRenderQueue())
+      .then(() => toggleDropdown())
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <div
       className="p-4 bg-faded mb-1 hover:bg-transparent cursor-pointer focus:outline-none"
-      onClick={toggleDropdown}
+      onClick={handleRequest}
       role="button"
       tabIndex="0"
     >
@@ -37,11 +48,13 @@ export default SearchCard;
 SearchCard.propTypes = {
   songInfo: PropTypes.objectOf(PropTypes.any),
   queue: PropTypes.arrayOf(PropTypes.any),
-  toggleDropdown: PropTypes.func
+  toggleDropdown: PropTypes.func,
+  reRenderQueue: PropTypes.func
 };
 
 SearchCard.defaultProps = {
   songInfo: {},
   queue: [],
-  toggleDropdown: () => []
+  toggleDropdown: () => [],
+  reRenderQueue: () => []
 };

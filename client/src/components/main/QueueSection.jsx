@@ -12,7 +12,7 @@ class QueueSection extends React.Component {
     super(props);
 
     this.state = {
-      isOpen: true
+      isOpen: false
     };
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
@@ -42,7 +42,7 @@ class QueueSection extends React.Component {
   render() {
     let { queue } = this.props;
     const { isOpen } = this.state;
-    const { searchList } = this.props;
+    const { searchList, reRenderQueue } = this.props;
 
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
 
@@ -65,6 +65,7 @@ class QueueSection extends React.Component {
                       queue={queue}
                       toggleDropdown={this.toggleDropdown}
                       sendToSearchQueue={this.sendToSearchQueue}
+                      reRenderQueue={reRenderQueue}
                     />
                   ))
                 ) : (
@@ -96,11 +97,13 @@ export default QueueSection;
 QueueSection.propTypes = {
   queue: PropTypes.arrayOf(PropTypes.any),
   sendToSearchQueue: PropTypes.func,
-  searchList: PropTypes.arrayOf(PropTypes.any)
+  searchList: PropTypes.arrayOf(PropTypes.any),
+  reRenderQueue: PropTypes.func
 };
 
 QueueSection.defaultProps = {
   queue: [],
   sendToSearchQueue: () => [],
-  searchList: []
+  searchList: [],
+  reRenderQueue: () => []
 };
