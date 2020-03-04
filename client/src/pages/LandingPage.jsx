@@ -6,16 +6,15 @@ import LandingGrid from '../components/landing/LandingGrid';
 
 class LandingPage extends React.Component {
   componentDidMount() {
-    // window.addEventListener(
-    //   'message',
-    //   e => {
-    //     console.log(e);
-    //     if (!(e.data.type === 'token')) return;
-    //     console.log(e.data);
-    //     console.log(e.data.token);
-    //   },
-    //   false
-    // );
+    window.addEventListener(
+      'message',
+      e => {
+        if (!(e.data.type === 'token')) return;
+        localStorage.setItem('token',e.data.token);
+        this.props.history.push('/main');
+      },
+      false
+    );
     // localStorage.setItem(
     //   'token',
     //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDllNzZjMWVmYmI2NDAwMTdjZDI0NmQiLCJuYW1lIjoiS2FzaGlzaCBNaXR0YWwiLCJlbWFpbCI6Imthc2hpc2gubWl0dGFsMjAxOEB2aXRzdHVkZW50LmFjLmluIiwic3RhdGUiOiJpbnQiLCJpYXQiOjE1ODI3MjcxNTl9.kNHC8F4fE8m1gVAAPOchmACK-1A4Uu1rsyLGSa2NKwY'

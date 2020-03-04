@@ -6,17 +6,17 @@ import GoogleIcon from '../../icons/GoogleIcon.png';
 
 class GoogleButton extends React.Component {
   render() {
-    const { windowWidth, history, type } = this.props;
+    const { windowWidth, type } = this.props;
     return (
       <button
         className="bg-white flex justify-center items-middle text-middle w-48 md:w-64 cursor-pointer my-2 md:my-4 hover:bg-gray-300 flex-stretch"
         type="button"
         onClick={() => {
-          const param = type === 'internal' ? '' : '?type:external';
-          // window.open(
-          //   `https://login-authentication-app.herokuapp.com/auth${param}`
-          // );
-          history.push('/main');
+          window.open(
+            `http://acmoctave.azurewebsites.net/google/signin?type=${type}`,
+            'oauthWindow',
+            'height=640,width=480'
+          );
         }}
       >
         <div className="flex justify-center items-center mx-3 my-auto">
