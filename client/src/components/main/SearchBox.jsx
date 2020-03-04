@@ -28,10 +28,11 @@ class SearchBox extends React.Component {
     const { sendToSearchQueue, toggleDropdown } = this.props;
     const { title } = this.state;
     e.preventDefault();
-    getSearch(title)
+    sendToSearchQueue(null, true);
+    getSearch(this.props.searchVal)
       .then(songSearch => {
-        sendToSearchQueue(songSearch.data);
-        toggleDropdown(true);
+        sendToSearchQueue(songSearch.data,true);
+        // toggleDropdown(true);
       })
       .then(() => {
         this.setState({ title: '' });
@@ -50,8 +51,8 @@ class SearchBox extends React.Component {
           type="text"
           className="bg-faded px-8 py-0 text-base sm:text-xl text-white box-border w-9/12 sm:w-11/12 placeholder-white"
           placeholder="Add a Song to Queue"
-          value={title}
-          onChange={this.handleChange}
+          value={this.props.searchVal}
+          onChange={(e)=>this.props.searchSong(e.target.value)}
         />
         <input
           type="submit"

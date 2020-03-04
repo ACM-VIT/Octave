@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { upvoteTrack } from '../../requests';
+import { upvoteTrack, requestSong } from '../../requests';
 
 import { ReactComponent as EmptyHeart } from '../../icons/EmptyHeart.svg';
 import { ReactComponent as FilledHeart } from '../../icons/FilledHeart.svg';
@@ -25,12 +25,20 @@ class SongCard extends React.Component {
   }
 
   handleLike() {
-    const { songInfo, reRenderQueue } = this.props;
-    upvoteTrack(songInfo.id)
-      .then(() => reRenderQueue())
-      .catch(err => {
-        console.log(err);
-      });
+    const { songInfo, reRenderQueue, addNew } = this.props;
+    if(!addNew){
+      upvoteTrack(songInfo.id)
+        .then(() => reRenderQueue(songInfo.id))
+        .catch(err => {
+          console.log(err);
+        });
+    }else{
+      requestSong(songInfo.id)
+        .then(() => reRenderQueue(null, songInfo.id))
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 
   render() {
@@ -38,14 +46,13 @@ class SongCard extends React.Component {
     const { isLiked } = this.state;
 
     const heart = isLiked ? <FilledHeart /> : <EmptyHeart />;
-
     return (
       <div
         className={`bg-faded px-8 sm:px-12 py-4 shadow-lg flex justify-between items-center ${styles}`}
       >
         <div>
           <div className="text-white song-title text-xl sm:text-2xl">
-            {songInfo.title}
+            {songInfo.title || songInfo.name}
           </div>
           <div className="text-faded text-sm sm:text-xl">
             {songInfo.artist.join(', ')}

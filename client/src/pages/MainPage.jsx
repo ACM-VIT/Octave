@@ -12,10 +12,17 @@ class MainPage extends React.Component {
   constructor() {
     super();
 
-    this.state = {};
+    this.state = {
+      search:'',
+      submitted: false
+    };
 
     this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
     this.reRenderQueue = this.reRenderQueue.bind(this);
+  }
+  searchSong(search){
+    this.setState({submitted:false})
+    this.setState({ search });
   }
 
   componentDidMount() {
@@ -40,8 +47,8 @@ class MainPage extends React.Component {
       .catch(err => console.log(err));
   }
 
-  sendToSearchQueue(searchList) {
-    this.setState({ searchList });
+  sendToSearchQueue(searchList, submitted) {
+    this.setState({ searchList, submitted });
   }
 
   reRenderQueue() {
@@ -73,8 +80,11 @@ class MainPage extends React.Component {
               <QueueSection
                 queue={queue}
                 sendToSearchQueue={this.sendToSearchQueue}
+                submitted={this.state.submitted}
                 searchList={searchList}
                 reRenderQueue={this.reRenderQueue}
+                searchVal={this.state.search}
+                searchSong={this.searchSong.bind(this)}
               />
             </div>
           </div>

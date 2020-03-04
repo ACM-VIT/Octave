@@ -8,6 +8,7 @@ import SongCard from './SongCard';
 import SearchBox from './SearchBox';
 import SearchCard from './SearchCard';
 import EmptySearchCard from './EmptySearchCard';
+import {QueueCards, SearchCards} from "./SongCards";
 
 class QueueSection extends React.Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class QueueSection extends React.Component {
     };
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
   }
 
   componentDidMount() {
@@ -30,18 +30,15 @@ class QueueSection extends React.Component {
     else this.setState({ isOpen: false });
   }
 
-  sendToSearchQueue(songList) {
-    const { sendToSearchQueue } = this.props;
-    sendToSearchQueue(songList);
-  }
-
   render() {
     let { queue } = this.props;
     const { isOpen } = this.state;
     const { searchList, reRenderQueue } = this.props;
 
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
-    queue = queue.filter(songInfo => songInfo.upvotes !== 0);
+    queue = queue.filter(songInfo => {
+      return (songInfo.title+"|"+songInfo.artist.join("|")).toLowerCase().includes(this.props.searchVal.toLowerCase()) && songInfo.upvotes !== 0
+    });
 
     return (
       <section className="queue-section mt-5 md:pl-10">
@@ -49,7 +46,9 @@ class QueueSection extends React.Component {
           <SectionHeader>Queue</SectionHeader>
           <div className="flex flex-col w-full sm:w-2/3 mb-5 py-2 items-stretch relative">
             <SearchBox
-              sendToSearchQueue={this.sendToSearchQueue}
+              searchSong={this.props.searchSong}
+              searchVal={this.props.searchVal}
+              sendToSearchQueue={this.props.sendToSearchQueue}
               toggleDropdown={this.toggleDropdown}
             />
             <div className={isOpen ? '' : 'hidden'}>
@@ -62,33 +61,33 @@ class QueueSection extends React.Component {
                 tabIndex="0"
               />
               <div className="bg-lighter-primary absolute w-full border-solid border-4 border-lighter-primary">
-                {searchList.length > 0 ? (
+                {/* {searchList.length > 0 ? (
                   searchList.map(songInfo => (
                     <SearchCard
                       songInfo={songInfo}
                       key={songInfo.id}
                       queue={queue}
                       toggleDropdown={this.toggleDropdown}
-                      sendToSearchQueue={this.sendToSearchQueue}
+                      sendToSearchQueue={this.props.sendToSearchQueue}
                       reRenderQueue={reRenderQueue}
                     />
                   ))
                 ) : (
                   <EmptySearchCard toggleDropdown={this.toggleDropdown} />
-                )}
+                )} */}
               </div>
             </div>
           </div>
         </div>
         <div className="md:overflow-y-scroll h-screen-60 bg-secondary">
-          {queue.map(songInfo => (
-            <SongCard
-              styles="mb-1"
-              songInfo={songInfo}
-              key={songInfo.id}
-              reRenderQueue={reRenderQueue}
-            />
-          ))}
+          <QueueCards queue={queue} reRenderQueue={reRenderQueue}/>
+          <SearchCards
+            show={Boolean(this.props.searchVal)} 
+            submitted={this.props.submitted} 
+            queue={queue} 
+            searchList={searchList} 
+            reRenderQueue={reRenderQueue}
+          />
         </div>
       </section>
     );
