@@ -10,7 +10,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 
 const App = () => (
   <>
-    <BrowserRouter basename={`${process.env.PUBLIC_URL}/`}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <ProtectedRoute path="/main" component={MainPage} />

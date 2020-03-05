@@ -55,7 +55,7 @@ const SearchCards = props => {
         if (
           queue.some(song => song.id === songInfo.id && songInfo.upvotes !== 0)
         )
-          return <div />;
+          return <div key={songInfo.id} />;
         return (
           <SongCard
             addNew

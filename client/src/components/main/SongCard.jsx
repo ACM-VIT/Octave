@@ -48,14 +48,19 @@ class SongCard extends React.Component {
     const heart = isLiked ? <FilledHeart /> : <EmptyHeart />;
     return (
       <div
-        className={`bg-faded px-8 sm:px-12 py-4 shadow-lg flex justify-between items-center ${styles}`}
+        className={`bg-faded px-4 sm:px-12 py-4 shadow-lg flex justify-between items-center ${styles}`}
       >
-        <div>
-          <div className="text-white song-title text-xl sm:text-2xl">
-            {songInfo.title || songInfo.name}
+        <div className="flex justify-start items-start mr-1 w-9/12">
+          <div className="mr-2 w-3/12 sm:w-2/12">
+            <img src={songInfo.media[2].url} alt="Album Art" />
           </div>
-          <div className="text-faded text-sm sm:text-xl">
-            {songInfo.artist.join(', ')}
+          <div className="w-9/12 sm:w-10/12">
+            <div className="text-white song-title text-xl sm:text-2xl leading-tight">
+              {songInfo.title || songInfo.name}
+            </div>
+            <div className="text-faded text-sm sm:text-xl">
+              {songInfo.artist.join(', ')}
+            </div>
           </div>
         </div>
         <div className="flex text-xl sm:text-2xl text-contrast">
@@ -80,12 +85,12 @@ SongCard.propTypes = {
   styles: PropTypes.string,
   songInfo: PropTypes.objectOf(PropTypes.any),
   reRenderQueue: PropTypes.func,
-  addNew: PropTypes.func
+  addNew: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
 };
 
 SongCard.defaultProps = {
   styles: '',
   songInfo: {},
   reRenderQueue: () => [],
-  addNew: () => []
+  addNew: 0
 };

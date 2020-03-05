@@ -435,10 +435,6 @@ img {
   background-color: #fff;
 }
 
-.hover\:bg-transparent:hover {
-  background-color: transparent;
-}
-
 .hover\:bg-gray-300:hover {
   background-color: #e2e8f0;
 }
@@ -582,6 +578,10 @@ img {
   line-height: 1;
 }
 
+.leading-tight {
+  line-height: 1.25;
+}
+
 .my-0 {
   margin-top: 0;
   margin-bottom: 0;
@@ -636,8 +636,16 @@ img {
   margin-top: 0;
 }
 
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
 }
 
 .mt-4 {
@@ -658,10 +666,6 @@ img {
 
 .mb-5 {
   margin-bottom: 1.25rem;
-}
-
-.opacity-0 {
-  opacity: 0;
 }
 
 .opacity-25 {
@@ -1172,10 +1176,6 @@ input {
     text-align: right;
   }
 
-  .sm\:text-base {
-    font-size: 1rem;
-  }
-
   .sm\:text-xl {
     font-size: 1.25rem;
   }
@@ -1210,6 +1210,14 @@ input {
 
   .sm\:w-1\/12 {
     width: 8.333333%;
+  }
+
+  .sm\:w-2\/12 {
+    width: 16.666667%;
+  }
+
+  .sm\:w-10\/12 {
+    width: 83.333333%;
   }
 
   .sm\:w-11\/12 {
