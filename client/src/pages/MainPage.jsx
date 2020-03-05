@@ -13,16 +13,14 @@ class MainPage extends React.Component {
     super();
 
     this.state = {
-      search:'',
+      search: '',
       submitted: false
     };
 
     this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
     this.reRenderQueue = this.reRenderQueue.bind(this);
-  }
-  searchSong(search){
-    this.setState({submitted:false})
-    this.setState({ search });
+    this.searchSong = this.searchSong.bind(this);
+    this.upOrDown = this.upOrDown.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +43,26 @@ class MainPage extends React.Component {
         this.setState({ nowPlaying });
       })
       .catch(err => console.log(err));
+
+    setInterval(() => {
+      getNowPlaying()
+        .then(nowPlaying => {
+          this.setState({ nowPlaying });
+        })
+        .catch(err => console.log(err));
+      getQueue()
+        .then(queue => {
+          this.setState({ queue });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, 10000);
+  }
+
+  searchSong(search) {
+    this.setState({ submitted: false });
+    this.setState({ search });
   }
 
   sendToSearchQueue(searchList, submitted) {
@@ -54,18 +72,43 @@ class MainPage extends React.Component {
   reRenderQueue() {
     getQueue()
       .then(queue => {
-        console.log('intitiating');
         this.setState({ queue });
-        console.log('terminating');
       })
       .catch(err => {
         console.log(err);
       });
   }
 
+  upOrDown(id) {
+    const { queue } = this.state;
+
+    const upQueue = queue.map(songInfo =>
+      songInfo.id === id
+        ? { ...songInfo, upvotes: songInfo.upvotes + 1 }
+        : songInfo
+    );
+
+    const downQueue = queue.map(songInfo =>
+      songInfo.id === id
+        ? { ...songInfo, upvotes: songInfo.upvotes - 1 }
+        : songInfo
+    );
+
+    if (queue.upvoted) this.setState({ queue: downQueue });
+    else this.setState({ queue: upQueue });
+  }
+
   render() {
     const { history } = this.props;
-    const { user, nowPlaying, queue, searchList } = this.state;
+    const {
+      user,
+      nowPlaying,
+      queue,
+      searchList,
+      submitted,
+      search
+    } = this.state;
+
     if (user && nowPlaying && queue)
       return (
         <div className="bg-primary h-full cursor-default overflow-auto">
@@ -79,12 +122,13 @@ class MainPage extends React.Component {
             <div className="w-full md:w-7/12 flex flex-col">
               <QueueSection
                 queue={queue}
+                upOrDown={this.upOrDown}
                 sendToSearchQueue={this.sendToSearchQueue}
-                submitted={this.state.submitted}
+                submitted={submitted}
                 searchList={searchList}
                 reRenderQueue={this.reRenderQueue}
-                searchVal={this.state.search}
-                searchSong={this.searchSong.bind(this)}
+                searchVal={search}
+                searchSong={this.searchSong}
               />
             </div>
           </div>

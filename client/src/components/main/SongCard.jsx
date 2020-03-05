@@ -25,8 +25,10 @@ class SongCard extends React.Component {
   }
 
   handleLike() {
-    const { songInfo, reRenderQueue, addNew } = this.props;
+    const { songInfo, reRenderQueue, addNew, upOrDown } = this.props;
+
     if (!addNew) {
+      upOrDown(songInfo.id);
       upvoteTrack(songInfo.id)
         .then(() => reRenderQueue(songInfo.id))
         .catch(err => {
@@ -69,6 +71,7 @@ class SongCard extends React.Component {
             className="ml-4 cursor-pointer focus:outline-none"
             role="button"
             tabIndex={0}
+            // onClick={this.handleLike}
             onClick={this.handleLike}
           >
             {heart}
@@ -85,12 +88,14 @@ SongCard.propTypes = {
   styles: PropTypes.string,
   songInfo: PropTypes.objectOf(PropTypes.any),
   reRenderQueue: PropTypes.func,
-  addNew: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
+  addNew: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  upOrDown: PropTypes.func
 };
 
 SongCard.defaultProps = {
   styles: '',
   songInfo: {},
   reRenderQueue: () => [],
-  addNew: 0
+  addNew: 0,
+  upOrDown: () => []
 };

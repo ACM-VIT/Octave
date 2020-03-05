@@ -29,7 +29,8 @@ class QueueSection extends React.Component {
       searchVal,
       searchSong,
       sendToSearchQueue,
-      submitted
+      submitted,
+      upOrDown
     } = this.props;
 
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
@@ -77,13 +78,18 @@ class QueueSection extends React.Component {
           </div>
         </div>
         <div className="md:overflow-y-scroll h-screen-60 bg-secondary">
-          <QueueCards queue={queue} reRenderQueue={reRenderQueue} />
+          <QueueCards
+            queue={queue}
+            reRenderQueue={reRenderQueue}
+            upOrDown={upOrDown}
+          />
           <SearchCards
             show={Boolean(searchVal)}
             submitted={submitted}
             queue={queue}
             searchList={searchList}
             reRenderQueue={reRenderQueue}
+            upOrDown={upOrDown}
           />
         </div>
       </section>
@@ -100,7 +106,8 @@ QueueSection.propTypes = {
   reRenderQueue: PropTypes.func,
   searchVal: PropTypes.string,
   searchSong: PropTypes.func,
-  submitted: PropTypes.bool
+  submitted: PropTypes.bool,
+  upOrDown: PropTypes.func
 };
 
 QueueSection.defaultProps = {
@@ -110,5 +117,6 @@ QueueSection.defaultProps = {
   reRenderQueue: () => [],
   searchVal: '',
   searchSong: () => [],
-  submitted: 0
+  submitted: 0,
+  upOrDown: () => []
 };

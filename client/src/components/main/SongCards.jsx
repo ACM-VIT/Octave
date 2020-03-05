@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import SongCard from './SongCard';
 
 const QueueCards = props => {
-  const { reRenderQueue, queue } = props;
+  const { reRenderQueue, queue, upOrDown } = props;
+
   if (queue.length === 0)
     return (
       <div className="bg-faded px-8 sm:px-12 py-4 shadow-lg mb-1 text-white song-title text-xl sm:text-2xl">
-        Song Not Found In Queue
+        Song not found in queue
       </div>
     );
 
@@ -18,17 +19,18 @@ const QueueCards = props => {
       songInfo={songInfo}
       key={songInfo.id}
       reRenderQueue={reRenderQueue}
+      upOrDown={upOrDown}
     />
   ));
 };
 
 const SearchCards = props => {
-  const { searchList, reRenderQueue, queue, show, submitted } = props;
+  const { searchList, reRenderQueue, queue, show, submitted, upOrDown } = props;
   if (!show) return <div />;
   if (!submitted) {
     return (
       <div className="bg-secondary px-8 sm:px-12 py-4 shadow-lg text-faded text-sm sm:text-xl ">
-        Hit Enter To Search
+        Hit enter to search
       </div>
     );
   }
@@ -63,6 +65,7 @@ const SearchCards = props => {
             songInfo={songInfo}
             key={songInfo.id}
             reRenderQueue={reRenderQueue}
+            upOrDown={upOrDown}
           />
         );
       })}
@@ -77,7 +80,8 @@ SearchCards.propTypes = {
   reRenderQueue: PropTypes.func,
   queue: PropTypes.arrayOf(PropTypes.any),
   show: PropTypes.bool,
-  submitted: PropTypes.bool
+  submitted: PropTypes.bool,
+  upOrDown: PropTypes.func
 };
 
 SearchCards.defaultProps = {
@@ -85,5 +89,6 @@ SearchCards.defaultProps = {
   reRenderQueue: () => [],
   queue: [],
   show: 0,
-  submitted: 0
+  submitted: 0,
+  upOrDown: () => []
 };

@@ -13,7 +13,7 @@ class GoogleButton extends React.Component {
         type="button"
         onClick={() => {
           window.open(
-            `http://acmoctave.azurewebsites.net/google/signin?type=${type}`,
+            `http://login-authentication-app.herokuapp.com/auth?type=${type}`,
             'oauthWindow',
             'height=640,width=480'
           );
