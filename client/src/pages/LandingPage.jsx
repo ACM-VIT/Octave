@@ -6,12 +6,13 @@ import LandingGrid from '../components/landing/LandingGrid';
 
 class LandingPage extends React.Component {
   componentDidMount() {
+    const { history } = this.props;
     window.addEventListener(
       'message',
       e => {
         if (!(e.data.type === 'token')) return;
-        localStorage.setItem('token',e.data.token);
-        this.props.history.push('/main');
+        localStorage.setItem('token', e.data.token);
+        history.push('/main');
       },
       false
     );

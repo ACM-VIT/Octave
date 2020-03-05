@@ -26,13 +26,13 @@ class SongCard extends React.Component {
 
   handleLike() {
     const { songInfo, reRenderQueue, addNew } = this.props;
-    if(!addNew){
+    if (!addNew) {
       upvoteTrack(songInfo.id)
         .then(() => reRenderQueue(songInfo.id))
         .catch(err => {
           console.log(err);
         });
-    }else{
+    } else {
       requestSong(songInfo.id)
         .then(() => reRenderQueue(null, songInfo.id))
         .catch(err => {
@@ -79,11 +79,13 @@ export default SongCard;
 SongCard.propTypes = {
   styles: PropTypes.string,
   songInfo: PropTypes.objectOf(PropTypes.any),
-  reRenderQueue: PropTypes.func
+  reRenderQueue: PropTypes.func,
+  addNew: PropTypes.func
 };
 
 SongCard.defaultProps = {
   styles: '',
   songInfo: {},
-  reRenderQueue: () => []
+  reRenderQueue: () => [],
+  addNew: () => []
 };

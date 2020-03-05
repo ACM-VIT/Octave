@@ -42,13 +42,11 @@ class GoogleButton extends React.Component {
 export default windowSize(GoogleButton);
 
 GoogleButton.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any),
   windowWidth: PropTypes.number,
   type: PropTypes.string
 };
 
 GoogleButton.defaultProps = {
-  history: {},
   windowWidth: 0,
   type: ''
 };

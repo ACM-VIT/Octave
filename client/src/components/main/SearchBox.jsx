@@ -8,11 +8,6 @@ class SearchBox extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      title: ''
-    };
-
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -20,28 +15,21 @@ class SearchBox extends React.Component {
     gsap.from('.search-box', { opacity: 0, duration: 1, y: 30 });
   }
 
-  handleChange(e) {
-    this.setState({ title: e.target.value });
-  }
-
   handleSubmit(e) {
-    const { sendToSearchQueue, toggleDropdown } = this.props;
-    const { title } = this.state;
+    const { sendToSearchQueue, searchVal } = this.props;
     e.preventDefault();
     sendToSearchQueue(null, true);
-    getSearch(this.props.searchVal)
+    getSearch(searchVal)
       .then(songSearch => {
-        sendToSearchQueue(songSearch.data,true);
+        sendToSearchQueue(songSearch.data, true);
         // toggleDropdown(true);
-      })
-      .then(() => {
-        this.setState({ title: '' });
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    const { title } = this.state;
+    const { searchVal, searchSong } = this.props;
+
     return (
       <form
         className="search-box flex flex-row z-40"
@@ -51,8 +39,8 @@ class SearchBox extends React.Component {
           type="text"
           className="bg-faded px-8 py-0 text-base sm:text-xl text-white box-border w-9/12 sm:w-11/12 placeholder-white"
           placeholder="Add a Song to Queue"
-          value={this.props.searchVal}
-          onChange={(e)=>this.props.searchSong(e.target.value)}
+          value={searchVal}
+          onChange={e => searchSong(e.target.value)}
         />
         <input
           type="submit"
@@ -68,10 +56,12 @@ export default SearchBox;
 
 SearchBox.propTypes = {
   sendToSearchQueue: PropTypes.func,
-  toggleDropdown: PropTypes.func
+  searchVal: PropTypes.string,
+  searchSong: PropTypes.func
 };
 
 SearchBox.defaultProps = {
   sendToSearchQueue: () => [],
-  toggleDropdown: () => []
+  searchVal: '',
+  searchSong: () => []
 };

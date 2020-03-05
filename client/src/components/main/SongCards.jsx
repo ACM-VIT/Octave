@@ -1,56 +1,89 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import SongCard from './SongCard';
 
-let QueueCards=(props)=>{
-    let {reRenderQueue,queue}=props
-    if(queue.length==0){
-        return <div>No Song found</div>
-    }
-    return queue.map(songInfo => (
-            <SongCard
-              styles="mb-1"
-              songInfo={songInfo}
-              key={songInfo.id}
-              reRenderQueue={reRenderQueue}
-            />
-          ))
-}
+const QueueCards = props => {
+  const { reRenderQueue, queue } = props;
+  if (queue.length === 0)
+    return (
+      <div className="bg-faded px-8 sm:px-12 py-4 shadow-lg mb-1 text-white song-title text-xl sm:text-2xl">
+        Song Not Found In Queue
+      </div>
+    );
 
-let SearchCards=(props)=>{
-    let {searchList,reRenderQueue,queue,show,submitted}=props
-    if(!show) return <div/>
-    if(!submitted){
-        return <div>Press Enter to search for new Songs</div>
-    }
-    if(submitted && searchList===null){
-        return <div>Searching...</div>
-    }
-    if(submitted && searchList.length===0){
-        return <div>No Song Found</div>
-    }
-    else{
-        return (
-        <div>
-        <div>New Songs:</div>
-        {searchList.map(songInfo => {
-            if(queue.some(
-              song => song.id === songInfo.id && songInfo.upvotes !== 0
-            )) return <div/>
-            return <SongCard
-              addNew
-              styles="mb-1"
-              songInfo={songInfo}
-              key={songInfo.id}
-              reRenderQueue={reRenderQueue}
-            />
-        })}
-        </div>
-        
+  return queue.map(songInfo => (
+    <SongCard
+      styles="mb-1"
+      songInfo={songInfo}
+      key={songInfo.id}
+      reRenderQueue={reRenderQueue}
+    />
+  ));
+};
+
+const SearchCards = props => {
+  const { searchList, reRenderQueue, queue, show, submitted } = props;
+  if (!show) return <div />;
+  if (!submitted) {
+    return (
+      <div className="bg-secondary px-8 sm:px-12 py-4 shadow-lg text-faded text-sm sm:text-xl ">
+        Hit Enter To Search
+      </div>
+    );
+  }
+  if (submitted && searchList === null) {
+    return (
+      <div className="bg-secondary px-8 sm:px-12 py-4 shadow-lg text-faded text-sm sm:text-xl ">
+        Searching...
+      </div>
+    );
+  }
+  if (submitted && searchList.length === 0) {
+    return (
+      <div className="bg-secondary px-8 sm:px-12 py-4 shadow-lg text-faded text-sm sm:text-xl song-title">
+        Song not found
+      </div>
+    );
+  }
+  return (
+    <div>
+      <div className="bg-secondary px-8 sm:px-12 py-4 shadow-lg text-faded text-sm sm:text-xl song-title">
+        New Songs:
+      </div>
+      {searchList.map(songInfo => {
+        if (
+          queue.some(song => song.id === songInfo.id && songInfo.upvotes !== 0)
         )
-    }
-}
+          return <div />;
+        return (
+          <SongCard
+            addNew
+            styles="mb-1"
+            songInfo={songInfo}
+            key={songInfo.id}
+            reRenderQueue={reRenderQueue}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
-export {
-    QueueCards,
-    SearchCards
-}
+export { QueueCards, SearchCards };
+
+SearchCards.propTypes = {
+  searchList: PropTypes.arrayOf(PropTypes.any),
+  reRenderQueue: PropTypes.func,
+  queue: PropTypes.arrayOf(PropTypes.any),
+  show: PropTypes.bool,
+  submitted: PropTypes.bool
+};
+
+SearchCards.defaultProps = {
+  searchList: [],
+  reRenderQueue: () => [],
+  queue: [],
+  show: 0,
+  submitted: 0
+};
