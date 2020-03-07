@@ -11,7 +11,8 @@ class SongCard extends React.Component {
     super();
 
     this.state = {
-      isLiked: false
+      isLiked: false,
+      upvotes: 0
     };
 
     this.handleLike = this.handleLike.bind(this);
@@ -20,13 +21,26 @@ class SongCard extends React.Component {
   componentDidMount() {
     const { songInfo } = this.props;
     if (songInfo.upvoted) {
-      this.setState(() => ({ isLiked: true }));
+      this.setState(() => ({ isLiked: true, upvotes: songInfo.upvotes }));
     }
   }
 
   handleLike() {
-    const { songInfo, reRenderQueue, addNew, upOrDown } = this.props;
-
+    const {
+      songInfo,
+      reRenderQueue,
+      addNew,
+      upOrDown,
+      addToQueue
+    } = this.props;
+    const { isLiked, upvotes } = this.state;
+    if (isLiked) {
+      this.setState({ upvotes: upvotes - 1 });
+      addToQueue(songInfo);
+    } else {
+      this.setState({ upvotes: upvotes + 1 });
+    }
+    this.setState({ isLiked: !isLiked });
     if (!addNew) {
       upOrDown(songInfo.id);
       upvoteTrack(songInfo.id)
@@ -45,7 +59,7 @@ class SongCard extends React.Component {
 
   render() {
     const { styles, songInfo } = this.props;
-    const { isLiked } = this.state;
+    const { isLiked, upvotes } = this.state;
 
     const heart = isLiked ? <FilledHeart /> : <EmptyHeart />;
     return (
@@ -66,7 +80,7 @@ class SongCard extends React.Component {
           </div>
         </div>
         <div className="flex text-xl sm:text-2xl text-contrast">
-          <div>{songInfo.upvotes}</div>
+          <div>{upvotes}</div>
           <div
             className="ml-4 cursor-pointer focus:outline-none"
             role="button"

@@ -6,6 +6,20 @@ import SongCard from './SongCard';
 const QueueCards = props => {
   const { reRenderQueue, queue, upOrDown } = props;
 
+  const addToQueue = songInfo => {
+    alert('Hi');
+    const song = {
+      artist: songInfo.artist,
+      id: songInfo.id,
+      media: songInfo.media,
+      title: songInfo.title,
+      upvoted: songInfo.upvoted,
+      upvotes: songInfo.upvotes
+    };
+
+    queue.push(song);
+  };
+
   if (queue.length === 0)
     return (
       <div className="bg-faded px-8 sm:px-12 py-4 shadow-lg mb-1 text-white song-title text-xl sm:text-2xl">
@@ -20,6 +34,7 @@ const QueueCards = props => {
       key={songInfo.id}
       reRenderQueue={reRenderQueue}
       upOrDown={upOrDown}
+      addToQUeue={addToQueue}
     />
   ));
 };
