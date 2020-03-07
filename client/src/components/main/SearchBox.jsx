@@ -21,6 +21,7 @@ class SearchBox extends React.Component {
     sendToSearchQueue(null, true);
     getSearch(searchVal)
       .then(songSearch => {
+        // console.log(songSearch);
         sendToSearchQueue(songSearch.data, true);
         // toggleDropdown(true);
       })

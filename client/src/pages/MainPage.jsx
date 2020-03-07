@@ -13,6 +13,7 @@ class MainPage extends React.Component {
     super();
 
     this.state = {
+      queue: [],
       search: '',
       submitted: false
     };
@@ -21,11 +22,13 @@ class MainPage extends React.Component {
     this.reRenderQueue = this.reRenderQueue.bind(this);
     this.searchSong = this.searchSong.bind(this);
     this.upOrDown = this.upOrDown.bind(this);
+    this.addToQueue = this.addToQueue.bind(this);
   }
 
   componentDidMount() {
     getQueue()
       .then(queue => {
+        console.log(queue);
         this.setState({ queue });
       })
       .catch(err => {
@@ -66,6 +69,7 @@ class MainPage extends React.Component {
   }
 
   sendToSearchQueue(searchList, submitted) {
+    // console.log(searchList);
     this.setState({ searchList, submitted });
   }
 
@@ -96,6 +100,22 @@ class MainPage extends React.Component {
 
     if (queue.upvoted) this.setState({ queue: downQueue });
     else this.setState({ queue: upQueue });
+  }
+
+  addToQueue(songInfo) {
+    const { queue } = this.state;
+
+    const song = {
+      artist: songInfo.artist,
+      id: songInfo.id,
+      media: songInfo.media,
+      title: songInfo.name,
+      upvoted: true,
+      upvotes: 1
+    };
+
+    queue.push(song);
+    this.setState({ queue });
   }
 
   render() {
@@ -129,6 +149,7 @@ class MainPage extends React.Component {
                 reRenderQueue={this.reRenderQueue}
                 searchVal={search}
                 searchSong={this.searchSong}
+                addToQueue={this.addToQueue}
               />
             </div>
           </div>

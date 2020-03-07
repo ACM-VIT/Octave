@@ -30,9 +30,9 @@ class QueueSection extends React.Component {
       searchSong,
       sendToSearchQueue,
       submitted,
-      upOrDown
+      upOrDown,
+      addToQueue
     } = this.props;
-
     queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
     queue = queue.filter(songInfo => {
       return (
@@ -90,6 +90,7 @@ class QueueSection extends React.Component {
             searchList={searchList}
             reRenderQueue={reRenderQueue}
             upOrDown={upOrDown}
+            addToQueue={addToQueue}
           />
         </div>
       </section>
@@ -107,7 +108,8 @@ QueueSection.propTypes = {
   searchVal: PropTypes.string,
   searchSong: PropTypes.func,
   submitted: PropTypes.bool,
-  upOrDown: PropTypes.func
+  upOrDown: PropTypes.func,
+  addToQueue: PropTypes.func
 };
 
 QueueSection.defaultProps = {
@@ -118,5 +120,6 @@ QueueSection.defaultProps = {
   searchVal: '',
   searchSong: () => [],
   submitted: 0,
-  upOrDown: () => []
+  upOrDown: () => [],
+  addToQueue: () => []
 };

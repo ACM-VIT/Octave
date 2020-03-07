@@ -51,7 +51,10 @@ const getSearch = songQuery => {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
-    }).then(res => resolve(res));
+    }).then(res => {
+      // console.log(res);
+      return resolve(res);
+    });
   });
 };
 

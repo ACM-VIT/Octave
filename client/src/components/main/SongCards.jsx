@@ -6,20 +6,6 @@ import SongCard from './SongCard';
 const QueueCards = props => {
   const { reRenderQueue, queue, upOrDown } = props;
 
-  const addToQueue = songInfo => {
-    alert('Hi');
-    const song = {
-      artist: songInfo.artist,
-      id: songInfo.id,
-      media: songInfo.media,
-      title: songInfo.title,
-      upvoted: songInfo.upvoted,
-      upvotes: songInfo.upvotes
-    };
-
-    queue.push(song);
-  };
-
   if (queue.length === 0)
     return (
       <div className="bg-faded px-8 sm:px-12 py-4 shadow-lg mb-1 text-white song-title text-xl sm:text-2xl">
@@ -34,13 +20,21 @@ const QueueCards = props => {
       key={songInfo.id}
       reRenderQueue={reRenderQueue}
       upOrDown={upOrDown}
-      addToQUeue={addToQueue}
     />
   ));
 };
 
 const SearchCards = props => {
-  const { searchList, reRenderQueue, queue, show, submitted, upOrDown } = props;
+  const {
+    searchList,
+    reRenderQueue,
+    queue,
+    show,
+    submitted,
+    upOrDown,
+    addToQueue
+  } = props;
+
   if (!show) return <div />;
   if (!submitted) {
     return (
@@ -81,6 +75,7 @@ const SearchCards = props => {
             key={songInfo.id}
             reRenderQueue={reRenderQueue}
             upOrDown={upOrDown}
+            addToQueue={addToQueue}
           />
         );
       })}
@@ -96,7 +91,8 @@ SearchCards.propTypes = {
   queue: PropTypes.arrayOf(PropTypes.any),
   show: PropTypes.bool,
   submitted: PropTypes.bool,
-  upOrDown: PropTypes.func
+  upOrDown: PropTypes.func,
+  addToQueue: PropTypes.func
 };
 
 SearchCards.defaultProps = {
@@ -105,5 +101,6 @@ SearchCards.defaultProps = {
   queue: [],
   show: 0,
   submitted: 0,
-  upOrDown: () => []
+  upOrDown: () => [],
+  addToQueue: () => []
 };
