@@ -16,16 +16,16 @@ class SearchBox extends React.Component {
   }
 
   handleSubmit(e) {
-    const { sendToSearchQueue, searchVal } = this.props;
+    const { sendToSearchQueue, searchVal, emptyBox } = this.props;
     e.preventDefault();
     sendToSearchQueue(null, true);
-    getSearch(searchVal)
-      .then(songSearch => {
-        // console.log(songSearch);
-        sendToSearchQueue(songSearch.data, true);
-        // toggleDropdown(true);
-      })
-      .catch(err => console.log(err));
+    if (searchVal.length > 2)
+      getSearch(searchVal)
+        .then(songSearch => {
+          sendToSearchQueue(songSearch.data, true);
+        })
+        .catch(err => console.log(err));
+    else emptyBox();
   }
 
   render() {
@@ -58,11 +58,13 @@ export default SearchBox;
 SearchBox.propTypes = {
   sendToSearchQueue: PropTypes.func,
   searchVal: PropTypes.string,
-  searchSong: PropTypes.func
+  searchSong: PropTypes.func,
+  emptyBox: PropTypes.func
 };
 
 SearchBox.defaultProps = {
   sendToSearchQueue: () => [],
   searchVal: '',
-  searchSong: () => []
+  searchSong: () => [],
+  emptyBox: () => []
 };

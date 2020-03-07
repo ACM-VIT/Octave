@@ -1,13 +1,6 @@
 import axios from 'axios';
 import qs from 'querystring';
 
-const user = {
-  userID: '117081039159565269574',
-  username: 'John Doe',
-  avatar:
-    'https://www.sackettwaconia.com/wp-content/uploads/default-profile.png'
-};
-
 const baseURL = 'https://acmoctave.azurewebsites.net';
 
 const getQueue = () => {
@@ -24,7 +17,13 @@ const getQueue = () => {
 
 const getUser = () => {
   return new Promise(resolve => {
-    resolve(user);
+    axios({
+      method: 'GET',
+      url: `${baseURL}/api/profile`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => resolve(res.data));
   });
 };
 

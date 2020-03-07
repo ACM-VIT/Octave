@@ -21,7 +21,7 @@ class QueueSection extends React.Component {
   }
 
   render() {
-    let { queue } = this.props;
+    const { queue } = this.props;
     const { isOpen } = this.state;
     const {
       searchList,
@@ -30,17 +30,35 @@ class QueueSection extends React.Component {
       searchSong,
       sendToSearchQueue,
       submitted,
-      upOrDown,
-      addToQueue
+      addToQueue,
+      emptyBox
     } = this.props;
-    queue = queue.sort((a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes));
-    queue = queue.filter(songInfo => {
+    let queue2 = queue.sort(
+      (a, b) => parseFloat(b.upVotes) - parseFloat(a.upVotes)
+    );
+    queue2 = queue.filter(songInfo => {
       return (
         `${songInfo.title} | ${songInfo.artist.join('|')}`
           .toLowerCase()
           .includes(searchVal.toLowerCase()) && songInfo.upvotes !== 0
       );
     });
+    // let queue1 = console.log(searchList);
+    console.log(queue);
+    // var queue2=queue.filter((song))
+    // var queue2;
+    // if (searchList && searchList.length > 0) {
+    //   queue = queue.filter(songInfo => {
+    //     return (
+    //       songInfo.upvotes !== 0 &&
+    //       queue1.some(
+    //         (item => item.id === songInfo.id) ||
+    //           searchList.some(item => item.id === songInfo.id)
+    //       )
+    //     );
+    //   });
+    // } else queue = queue1;
+    // console.log(queue);
 
     return (
       <section className="queue-section mt-5 md:pl-10">
@@ -51,6 +69,7 @@ class QueueSection extends React.Component {
               searchSong={searchSong}
               searchVal={searchVal}
               sendToSearchQueue={sendToSearchQueue}
+              emptyBox={emptyBox}
             />
             <div className={isOpen ? '' : 'hidden'}>
               <div
@@ -78,18 +97,13 @@ class QueueSection extends React.Component {
           </div>
         </div>
         <div className="md:overflow-y-scroll h-screen-60 bg-secondary">
-          <QueueCards
-            queue={queue}
-            reRenderQueue={reRenderQueue}
-            upOrDown={upOrDown}
-          />
+          <QueueCards queue={queue2} reRenderQueue={reRenderQueue} />
           <SearchCards
             show={Boolean(searchVal)}
             submitted={submitted}
             queue={queue}
             searchList={searchList}
             reRenderQueue={reRenderQueue}
-            upOrDown={upOrDown}
             addToQueue={addToQueue}
           />
         </div>
@@ -108,8 +122,8 @@ QueueSection.propTypes = {
   searchVal: PropTypes.string,
   searchSong: PropTypes.func,
   submitted: PropTypes.bool,
-  upOrDown: PropTypes.func,
-  addToQueue: PropTypes.func
+  addToQueue: PropTypes.func,
+  emptyBox: PropTypes.func
 };
 
 QueueSection.defaultProps = {
@@ -120,6 +134,6 @@ QueueSection.defaultProps = {
   searchVal: '',
   searchSong: () => [],
   submitted: 0,
-  upOrDown: () => [],
-  addToQueue: () => []
+  addToQueue: () => [],
+  emptyBox: () => []
 };

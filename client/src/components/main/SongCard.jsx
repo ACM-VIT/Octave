@@ -20,19 +20,12 @@ class SongCard extends React.Component {
 
   componentDidMount() {
     const { songInfo } = this.props;
-    if (songInfo.upvoted) {
-      this.setState(() => ({ isLiked: true, upvotes: songInfo.upvotes }));
-    }
+    if (songInfo.upvoted) this.setState(() => ({ isLiked: true }));
+    this.setState({ upvotes: songInfo.upvotes ? songInfo.upvotes : 0 });
   }
 
   handleLike() {
-    const {
-      songInfo,
-      reRenderQueue,
-      addNew,
-      upOrDown,
-      addToQueue
-    } = this.props;
+    const { songInfo, reRenderQueue, addNew, addToQueue } = this.props;
     const { isLiked, upvotes } = this.state;
     if (isLiked) {
       this.setState({ upvotes: upvotes - 1 });
@@ -41,8 +34,6 @@ class SongCard extends React.Component {
     }
     this.setState({ isLiked: !isLiked });
     if (!addNew) {
-      upOrDown(songInfo.id);
-
       upvoteTrack(songInfo.id)
         .then(() => reRenderQueue(songInfo.id))
         .catch(err => {
@@ -104,7 +95,6 @@ SongCard.propTypes = {
   songInfo: PropTypes.objectOf(PropTypes.any),
   reRenderQueue: PropTypes.func,
   addNew: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-  upOrDown: PropTypes.func,
   addToQueue: PropTypes.func
 };
 
@@ -113,6 +103,5 @@ SongCard.defaultProps = {
   songInfo: {},
   reRenderQueue: () => [],
   addNew: 0,
-  upOrDown: () => [],
   addToQueue: () => []
 };

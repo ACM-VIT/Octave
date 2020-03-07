@@ -18,17 +18,17 @@ class MainPage extends React.Component {
       submitted: false
     };
 
+    this.emptySearch = this.emptySearch.bind(this);
     this.sendToSearchQueue = this.sendToSearchQueue.bind(this);
     this.reRenderQueue = this.reRenderQueue.bind(this);
     this.searchSong = this.searchSong.bind(this);
-    this.upOrDown = this.upOrDown.bind(this);
     this.addToQueue = this.addToQueue.bind(this);
   }
 
   componentDidMount() {
     getQueue()
       .then(queue => {
-        console.log(queue);
+        // console.log(queue);
         this.setState({ queue });
       })
       .catch(err => {
@@ -83,25 +83,6 @@ class MainPage extends React.Component {
       });
   }
 
-  upOrDown(id) {
-    const { queue } = this.state;
-
-    const upQueue = queue.map(songInfo =>
-      songInfo.id === id
-        ? { ...songInfo, upvotes: songInfo.upvotes + 1 }
-        : songInfo
-    );
-
-    const downQueue = queue.map(songInfo =>
-      songInfo.id === id
-        ? { ...songInfo, upvotes: songInfo.upvotes - 1 }
-        : songInfo
-    );
-
-    if (queue.upvoted) this.setState({ queue: downQueue });
-    else this.setState({ queue: upQueue });
-  }
-
   addToQueue(songInfo) {
     const { queue } = this.state;
 
@@ -116,6 +97,10 @@ class MainPage extends React.Component {
 
     queue.push(song);
     this.setState({ queue });
+  }
+
+  emptySearch() {
+    this.setState({ search: '' });
   }
 
   render() {
@@ -134,15 +119,14 @@ class MainPage extends React.Component {
         <div className="bg-primary h-full cursor-default overflow-auto">
           <Navbar
             history={history}
-            username={user.username}
-            avatar={user.avatar}
+            username={user.name}
+            avatar={user.picture}
           />
           <div className="mx-4 sm:mx-32 flex flex-col md:flex-row">
             <PlayingSection nowPlaying={nowPlaying} />
             <div className="w-full md:w-7/12 flex flex-col">
               <QueueSection
                 queue={queue}
-                upOrDown={this.upOrDown}
                 sendToSearchQueue={this.sendToSearchQueue}
                 submitted={submitted}
                 searchList={searchList}
