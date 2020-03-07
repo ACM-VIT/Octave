@@ -44,7 +44,6 @@ class QueueSection extends React.Component {
       );
     });
     // let queue1 = console.log(searchList);
-    console.log(queue);
     // var queue2=queue.filter((song))
     // var queue2;
     // if (searchList && searchList.length > 0) {
