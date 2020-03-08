@@ -49,7 +49,7 @@ app.use(bodyparser.json());
 app.use('/', landingPageRoutes);
 app.use('/api', apiRoutes);
 app.use('/spotify', spotifyRoutes);
-app.use('/admin', adminRoutes);
+app.use(`/${process.env.ADMIN_ROUTE}`, adminRoutes);
 
 // start listening on ports
 app.listen(port, () => {
