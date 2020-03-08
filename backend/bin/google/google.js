@@ -85,8 +85,9 @@ Google.prototype.checkIfVitEmail = (email) => {
 // function to generate and return JWTs
 Google.prototype.generateToken = (user, state) => {
   const data = {
-    id: user.id,
-    name: user.given_name,
+    _id: user._id.toHexString(),
+    name: user.name,
+    email: user.email,
     picture: user.picture,
     state,
   };
