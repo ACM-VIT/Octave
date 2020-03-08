@@ -13,7 +13,6 @@ class MainPage extends React.Component {
     super();
 
     this.state = {
-      queue: [],
       search: '',
       submitted: false
     };
