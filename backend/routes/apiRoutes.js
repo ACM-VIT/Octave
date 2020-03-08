@@ -33,7 +33,7 @@ const router = express.Router();
 // define a middleware to check authentication
 // /*
 router.use((req, res, next) => {
-  //   logger.info('Middleware working');
+    // logger.info('Middleware working');
 
   //   if no header is present, then return error
   if (!req.headers.authorization) {
@@ -57,6 +57,7 @@ router.use((req, res, next) => {
   // extract jwt from header
   const data = google.decodeToken(auth[1]);
   if (data.error !== false) {
+    // console.log(data);
     return res.status(403).json({
       error: true,
       message: 'Trouble Decoding Token',
@@ -64,7 +65,10 @@ router.use((req, res, next) => {
   }
 
   //   now our const data has the data we need
+  
   req.profile = data;
+  req.profile.payload.id = data.payload._id;
+  // console.log(req.profile);
   //   being too berbose
   //   logger.info('Middleware Test Success');
   next();
@@ -436,6 +440,25 @@ router.get('/live', (req, res) => {
     }
   });
 });
+
+router.get('/profile', (req, res)=> {
+  if(req.profile){
+    res.json({
+      error: false,
+      payload: {
+        name: req.profile.payload.name,
+        email: req.profile.payload.email,
+        picture: req.profile.payload.picture
+      }
+    });
+    
+  }else{
+    res.json({
+      error: true,
+      message: 'No Token to parse data from'
+    })
+  }
+})
 
 // export everything !
 module.exports = router;

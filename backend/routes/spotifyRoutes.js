@@ -165,7 +165,7 @@ router.get('/refresh', (req, res) => {
       });
     } else {
       // handle non 200 response from server
-      logger.error('Error Refreshing Access Code');
+      logger.error(`Error Refreshing Access Code : Code ${response.statusCode}`);
       res.end();
     }
   });
