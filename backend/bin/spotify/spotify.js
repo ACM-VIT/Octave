@@ -88,16 +88,19 @@ Spotify.prototype.processTracks = function(data) {
       image = q.album.images;
     }
 
-    processedData.push({
-      id: q.id,
-      name: q.name,
-      artist: artists,
-      explicit: q.explicit,
-      popularity: q.popularity,
-      media: image,
-      url: q.external_urls.spotify,
-      length: q.duration_ms,
-    });
+    if(q.explicit != true){
+      processedData.push({
+        id: q.id,
+        name: q.name,
+        artist: artists,
+        explicit: q.explicit,
+        popularity: q.popularity,
+        media: image,
+        url: q.external_urls.spotify,
+        length: q.duration_ms,
+      });
+    }
+    
   });
   return processedData;
   //   return data;
@@ -210,11 +213,16 @@ Spotify.prototype.filterSongsToShowLeaderboard = (data, uniqueUserId) => {
       });
     });
 
+    let upvoted = false;
+    if(x.upvoters.includes(uniqueUserId)){
+      upvoted = true;
+    }
+
     returnData.push({
       id: x.id,
       title: x.title,
       upvotes: x.upvotes,
-      upvoted: x.upvoters.includes(uniqueUserId) > -1,
+      upvoted: upvoted,
       artist: x.artists,
       media,
     });

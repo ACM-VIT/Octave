@@ -34,6 +34,7 @@ const apiRoutes = require('./routes/apiRoutes');
 const googleRoutes = require('./routes/googleRoutes');
 const spotifyRoutes = require('./routes/spotifyRoutes');
 const landingPageRoutes = require('./routes/landingPageRoutes');
+const adminRoutes = require('./routes/adminRouts');
 
 // parse valid requests only
 app.use(
@@ -48,7 +49,7 @@ app.use(bodyparser.json());
 app.use('/', landingPageRoutes);
 app.use('/api', apiRoutes);
 app.use('/spotify', spotifyRoutes);
-app.use('/google', googleRoutes);
+app.use(`/${process.env.ADMIN_ROUTE}`, adminRoutes);
 
 // start listening on ports
 app.listen(port, () => {
@@ -95,7 +96,7 @@ function refreshToken() {
       );
     } else {
       // handle non 200 response from server
-      logger.error('Error Refreshing Access Code');
+      logger.error(`Error Refreshing Access Code : ${response.statusCode}`);
     }
   });
 
